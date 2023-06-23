@@ -36,8 +36,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        ForcePlayerInBounds(_player.transform);
-        Debug.Log(_playerHealth);
+        ForcePlayerInBounds(_player.transform); 
     }
 
     public void TakeDamage()

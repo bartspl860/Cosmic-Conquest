@@ -37,10 +37,10 @@ public class Bullet : MonoBehaviour
     {
         switch(_impactTag)
         {
-            case ImpactOn.Destroyable:
+            case ImpactOn.Destroyable:                
                 if (collision.CompareTag(_impactTag.ToString())){
                     Destroy(collision.gameObject);
-                    Destroy(gameObject);
+                    StartCoroutine(DestroySelf());
                 }
             break; 
             case ImpactOn.Player:
@@ -51,5 +51,16 @@ public class Bullet : MonoBehaviour
                 }
             break;
         }
+    }
+
+    private IEnumerator DestroySelf()
+    {
+        var ps = GetComponent<ParticleSystem>();
+        ps.Play();
+        GetComponent<SpriteRenderer>().enabled = false;
+        transform.position = new Vector2(transform.position.x, transform.position.y + 0.2f);
+        GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+        yield return new WaitForSeconds(ps.main.duration);
+        Destroy(gameObject);
     }
 }

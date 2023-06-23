@@ -12,13 +12,16 @@ public class EnviromentController : MonoBehaviour
 
     [SerializeField, Header("Dependencies")]
     private EnemyController _enemyController;
+    [SerializeField]
+    private StarController _starController;
 
     private GameState _gameState;
     private List<Coroutine> _coroutine = new List<Coroutine>();
 
-    private void Start()
+    private void Awake()
     {
         ChangeGameState(GameState.DefaultEnemies);
+        StartCoroutine(CreateRandomRowOfStars());
     }
 
     private void ChangeGameState(GameState gameState)
@@ -53,6 +56,19 @@ public class EnviromentController : MonoBehaviour
     }
 
 
+    private IEnumerator CreateRandomRowOfStars()
+    {
+        yield return new WaitForSeconds(3);        
 
+        for(int x = -8; x < 8; x+=2)
+        {
+            var star_possibility = Random.Range(0, 5);
+            if (star_possibility != 0)
+                continue;
+            _starController.GenerateRandomStar(new Vector2(x, 6f));
+        }
+        
+        StartCoroutine(CreateRandomRowOfStars());
+    }
 
 }
