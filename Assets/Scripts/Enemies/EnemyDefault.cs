@@ -28,4 +28,12 @@ public class EnemyDefault : MonoBehaviour
         _bulletController.GenerateEnemyBullet(transform.position);
         StartCoroutine(Shoot());
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player") || collision.gameObject.layer == LayerMask.NameToLayer("Enemies"))
+            return;
+
+        Destroy(gameObject);
+    }
 }

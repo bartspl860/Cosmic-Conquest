@@ -41,7 +41,6 @@ public class Bullet : MonoBehaviour
         {
             case ImpactOn.Destroyable:                
                 if (collision.CompareTag(_impactTag.ToString())){
-                    StartCoroutine(DestroyCollided(collision.gameObject));    
                     StartCoroutine(DestroySelf());
                 }
             break; 
@@ -55,15 +54,11 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    private IEnumerator DestroyCollided(GameObject collided)
-    {
-        yield return new WaitForSeconds(_particleSystem.main.duration/20f);
-        Destroy(collided);
-    }
-
     private IEnumerator DestroySelf()
     {
         _particleSystem.Play();
+        var collider = GetComponent<Collider2D>();
+        Destroy(collider);
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<Rigidbody2D>().velocity = Vector3.zero;
         yield return new WaitForSeconds(_particleSystem.main.duration);

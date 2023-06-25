@@ -11,6 +11,6 @@ public class StarController : MonoBehaviour
     {
         var star = Instantiate(_starPrefabs[Random.Range(0, _starPrefabs.Length)]);
         star.transform.position = pos;
-        star.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -1f);
+        star.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -0.5f);
     }
 }

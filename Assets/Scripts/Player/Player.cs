@@ -17,15 +17,19 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _shootingSpeed;
     [SerializeField]
-    private float _playerHealth;
+    private int _playerHealth;
     [SerializeField]
     private Sprite _playerHealthSprite;
     [SerializeField, Header("Dependencies")]
     private BulletController _bulletController;
     [SerializeField]
+    private UIController _uiController;
+    [SerializeField]
+    private EntitiesController _entitiesController;
+    [SerializeField]
     private Shaking _shaking;
     [SerializeField]
-    private TextMeshProUGUI _healthBar;
+    private Fading _fading;
 
     private Rigidbody2D _playerRigidbody;
 
@@ -34,7 +38,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         _playerRigidbody = _player.GetComponent<Rigidbody2D>();
-        
+        _uiController.DisplayHealthPoints(_playerHealth);
         _screenBounds = GetScreenBounds();
         StartCoroutine(Shooting());       
     }
@@ -46,15 +50,14 @@ public class Player : MonoBehaviour
 
     public void TakeDamage()
     {        
-        _shaking.startShake(1.0f);
+        _shaking.startShake();
         _playerHealth--;
-        _healthBar.text = "";
-        for (int i = 0; i < _playerHealth; i++)
-        {
-            _healthBar.text += "<sprite name=\"player_life\">\n";
-        }
+        _uiController.DisplayHealthPoints(_playerHealth);
         if ( _playerHealth < 1 ) 
         {
+            _entitiesController
+                .ChangeGameState(EntitiesController.GameState.None);
+            _fading.startFade();
             Destroy(_player);
             Destroy(gameObject);
         }

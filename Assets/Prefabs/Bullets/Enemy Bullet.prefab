@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6853708100859828118}
   - component: {fileID: 8128629491024540772}
   - component: {fileID: 5743061443950321384}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -418,7 +418,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
