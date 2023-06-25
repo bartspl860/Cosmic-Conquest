@@ -14,6 +14,7 @@ public class Bullet : MonoBehaviour
     private ImpactOn _impactTag;
 
     private Player _player;
+    private ParticleSystem _particleSystem;
 
     private void Start()
     {
@@ -22,6 +23,7 @@ public class Bullet : MonoBehaviour
             Player._screenBounds.w
         );        
         _player = FindFirstObjectByType<Player>();
+        _particleSystem = GetComponent<ParticleSystem>();
     }    
 
     private void Update()
@@ -39,28 +41,32 @@ public class Bullet : MonoBehaviour
         {
             case ImpactOn.Destroyable:                
                 if (collision.CompareTag(_impactTag.ToString())){
-                    Destroy(collision.gameObject);
+                    StartCoroutine(DestroyCollided(collision.gameObject));    
                     StartCoroutine(DestroySelf());
                 }
             break; 
             case ImpactOn.Player:
                 if (collision.CompareTag(_impactTag.ToString()))
                 {
-                    Destroy(gameObject);
+                    StartCoroutine(DestroySelf());
                     _player.TakeDamage();
                 }
             break;
         }
     }
 
+    private IEnumerator DestroyCollided(GameObject collided)
+    {
+        yield return new WaitForSeconds(_particleSystem.main.duration/20f);
+        Destroy(collided);
+    }
+
     private IEnumerator DestroySelf()
     {
-        var ps = GetComponent<ParticleSystem>();
-        ps.Play();
+        _particleSystem.Play();
         GetComponent<SpriteRenderer>().enabled = false;
-        transform.position = new Vector2(transform.position.x, transform.position.y + 0.2f);
         GetComponent<Rigidbody2D>().velocity = Vector3.zero;
-        yield return new WaitForSeconds(ps.main.duration);
+        yield return new WaitForSeconds(_particleSystem.main.duration);
         Destroy(gameObject);
     }
 }

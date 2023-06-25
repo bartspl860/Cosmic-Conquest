@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -17,17 +18,21 @@ public class Player : MonoBehaviour
     private float _shootingSpeed;
     [SerializeField]
     private float _playerHealth;
+    [SerializeField]
+    private Sprite _playerHealthSprite;
     [SerializeField, Header("Dependencies")]
     private BulletController _bulletController;
+    [SerializeField]
+    private Shaking _shaking;
+    [SerializeField]
+    private TextMeshProUGUI _healthBar;
 
     private Rigidbody2D _playerRigidbody;
-    private CapsuleCollider2D _playerCollider;
 
     public static Vector4 _screenBounds;
 
     private void Start()
     {
-        _playerCollider = _player.GetComponent<CapsuleCollider2D>();
         _playerRigidbody = _player.GetComponent<Rigidbody2D>();
         
         _screenBounds = GetScreenBounds();
@@ -40,9 +45,15 @@ public class Player : MonoBehaviour
     }
 
     public void TakeDamage()
-    {
+    {        
+        _shaking.startShake(1.0f);
         _playerHealth--;
-        if( _playerHealth < 1 ) 
+        _healthBar.text = "";
+        for (int i = 0; i < _playerHealth; i++)
+        {
+            _healthBar.text += "<sprite name=\"player_life\">\n";
+        }
+        if ( _playerHealth < 1 ) 
         {
             Destroy(_player);
             Destroy(gameObject);
@@ -72,7 +83,7 @@ public class Player : MonoBehaviour
     public void PlayerShoot()
     {
         var pos = _player.transform.position;
-        pos.y += 0.2f;
+        pos.y += 0.3f;
         _bulletController.GeneratePlayerBullet(pos);
     }
 
