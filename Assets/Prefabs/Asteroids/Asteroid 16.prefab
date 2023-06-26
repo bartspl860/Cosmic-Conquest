@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1449104227404548954}
   - component: {fileID: -3809709151094287712}
   - component: {fileID: 8020527620365081664}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Asteroid 16
   m_TagString: Destroyable
   m_Icon: {fileID: 0}

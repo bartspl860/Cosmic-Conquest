@@ -14,13 +14,27 @@ public class EnviromentController : MonoBehaviour
         StartCoroutine(Stars());
     }
 
+    public void StopMainSequence()
+    {
+        _entitiesController.StopAll();
+        StopAllCoroutines();
+    }
+
     private IEnumerator MainSequence()
     {
-        _entitiesController.ChangeGameState(EntitiesController.GameState.Asteroids);
-        yield return new WaitForSeconds(20);
-        _entitiesController.ChangeGameState(EntitiesController.GameState.DefaultEnemies);
-        yield return new WaitForSeconds(20);
-        StartCoroutine(MainSequence());
+        while (true)
+        {
+            var seq = Random.Range(0, 2);
+            switch (seq)
+            {
+                case 0: _entitiesController.AddGameState(GameState.Asteroids, GameState.DefaultEnemies); break;
+                case 1: _entitiesController.AddGameState(GameState.Asteroids); break;
+                case 2: _entitiesController.AddGameState(GameState.DefaultEnemies); break;
+            }
+            yield return new WaitForSeconds(Random.Range(5f, 30f));
+
+            _entitiesController.StopAll();
+        }       
     }
 
     private IEnumerator Stars()

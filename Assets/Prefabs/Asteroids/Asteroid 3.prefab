@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1449104227404548954}
   - component: {fileID: -3809709151094287712}
   - component: {fileID: 8020527620365081664}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Asteroid 3
   m_TagString: Destroyable
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 1
-  _lifes: 1
+  _lifes: 2
 --- !u!198 &-3809709151094287712
 ParticleSystem:
   m_ObjectHideFlags: 0

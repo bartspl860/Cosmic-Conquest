@@ -1196,7 +1196,7 @@ MonoBehaviour:
   _playerHealthSprite: {fileID: 21300000, guid: a69d0d88e6f13434fb40def5c00435db, type: 3}
   _bulletController: {fileID: 1572731034}
   _uiController: {fileID: 1728950223}
-  _entitiesController: {fileID: 0}
+  _enviromentController: {fileID: 2111359462}
   _shaking: {fileID: 519420033}
   _fading: {fileID: 487452749}
 --- !u!4 &1532596627
@@ -1709,4 +1709,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c1faa0ac0fe1274388b799ea4be7c8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enviromentController: {fileID: 0}
+  _entitiesController: {fileID: 1820143093}

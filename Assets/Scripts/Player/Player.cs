@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private UIController _uiController;
     [SerializeField]
-    private EntitiesController _entitiesController;
+    private EnviromentController _enviromentController;
     [SerializeField]
     private Shaking _shaking;
     [SerializeField]
@@ -55,8 +55,7 @@ public class Player : MonoBehaviour
         _uiController.DisplayHealthPoints(_playerHealth);
         if ( _playerHealth < 1 ) 
         {
-            _entitiesController
-                .ChangeGameState(EntitiesController.GameState.None);
+            _enviromentController.StopMainSequence();
             _fading.startFade();
             Destroy(_player);
             Destroy(gameObject);

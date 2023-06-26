@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Asteroid : MonoBehaviour
 {
@@ -27,6 +26,10 @@ public class Asteroid : MonoBehaviour
         {
             StartCoroutine(PlayerCollision());
             
+        }
+        else if(collision.gameObject.layer == LayerMask.NameToLayer("Enemies"))
+        {
+            return;
         }
         else
         {
