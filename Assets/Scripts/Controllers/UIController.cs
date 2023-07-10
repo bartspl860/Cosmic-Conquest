@@ -10,6 +10,8 @@ public class UIController : MonoBehaviour
     private string _healthPointSpriteAssetName;
     [SerializeField, Header("Dependencies")]
     private TextMeshProUGUI _healtBar;
+    [SerializeField]
+    private TextMeshProUGUI _score;
 
 
     public void DisplayHealthPoints(int nPoints)
@@ -19,5 +21,10 @@ public class UIController : MonoBehaviour
         {
             _healtBar.text += $"<sprite name=\"{_healthPointSpriteAssetName}\">\n";
         }
+    }
+
+    public void DisplayScore(int score)
+    {
+        _score.text = $"score: {score}";
     }
 }

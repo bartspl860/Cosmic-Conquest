@@ -37,8 +37,17 @@ public class Asteroid : MonoBehaviour
         //asteroid collides with player and makes particle effect
         if (collision.CompareTag("Player"))
         {
-            StartCoroutine(PlayerCollision());
-            
+            StartCoroutine(DestroySelf());
+            var player = FindFirstObjectByType<Player>();
+
+            if(!player.IsShielded)
+            {
+                player.TakeDamage();
+            }
+            else
+            {
+                player.TriggerShield();
+            }
         }
         //asteroid checks if it collides with enemies and ignores it
         else if(collision.gameObject.layer == LayerMask.NameToLayer("Enemies"))
@@ -48,10 +57,11 @@ public class Asteroid : MonoBehaviour
         //asteroid collides with bullet, takes damage and destroys itself immediately
         else
         {
-            _lifes--;
-            if( _lifes <= 0)
+            _lifes--;            
+            if ( _lifes <= 0)
             {
-                if(_bigAsteroid)
+                FindFirstObjectByType<Player>().AddScore(_points);
+                if (_bigAsteroid)
                 {
                     var randomAsteroidNum = Random.Range(0, 3);
                     for(var i = 0; i < randomAsteroidNum; i++)
@@ -75,12 +85,12 @@ public class Asteroid : MonoBehaviour
         }
     }
 
-    private IEnumerator PlayerCollision()
+    private IEnumerator DestroySelf()
     {
         var ps = GetComponent<ParticleSystem>();
         ps.Play();        
         GetComponent<SpriteRenderer>().enabled = false;
-        FindFirstObjectByType<Player>().TakeDamage();
+        
         
         yield return new WaitForSeconds(ps.main.duration);
 

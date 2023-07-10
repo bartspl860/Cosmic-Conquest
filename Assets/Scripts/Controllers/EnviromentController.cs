@@ -10,8 +10,9 @@ public class EnviromentController : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(MainSequence());
+        //StartCoroutine(MainSequence());
         StartCoroutine(Stars());
+        _entitiesController.AddGameState(GameState.Asteroids);
     }
 
     public void StopMainSequence()

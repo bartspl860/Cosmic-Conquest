@@ -48,7 +48,14 @@ public class Bullet : MonoBehaviour
                 if (collision.CompareTag(_impactTag.ToString()))
                 {
                     StartCoroutine(DestroySelf());
-                    _player.TakeDamage();
+                    if (!_player.IsShielded)
+                    {
+                        _player.TakeDamage();
+                    }
+                    else
+                    {                        
+                        _player.TriggerShield();
+                    }
                 }
             break;
         }

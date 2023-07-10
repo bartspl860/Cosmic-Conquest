@@ -19,7 +19,15 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _playerHealth;
     [SerializeField]
+    private bool _shield;
+    [SerializeField]
+    private float _shieldDuration;
+    [SerializeField]
+    private float _shieldTriggerTime;
+    [SerializeField]
     private Sprite _playerHealthSprite;
+    [SerializeField]
+    private int _score;
     [SerializeField, Header("Dependencies")]
     private BulletController _bulletController;
     [SerializeField]
@@ -30,6 +38,10 @@ public class Player : MonoBehaviour
     private Shaking _shaking;
     [SerializeField]
     private Fading _fading;
+    [SerializeField]
+    private SpriteRenderer _shieldRenderer;
+    [SerializeField]
+    private Animator _shieldAnimator;
 
     private Rigidbody2D _playerRigidbody;
 
@@ -40,12 +52,67 @@ public class Player : MonoBehaviour
         _playerRigidbody = _player.GetComponent<Rigidbody2D>();
         _uiController.DisplayHealthPoints(_playerHealth);
         _screenBounds = GetScreenBounds();
-        StartCoroutine(Shooting());       
+        StartCoroutine(IEShooting());       
     }
 
+
+    private bool _shieldGuard = false;
     private void Update()
     {
-        ForcePlayerInBounds(_player.transform); 
+        ForcePlayerInBounds(_player.transform);
+
+        if(_shield && !_shieldGuard)
+        {
+            _shieldGuard = true;
+            StartCoroutine(IEActivateShield());            
+        }
+    }
+
+    public void TriggerShield()
+    {
+        StartCoroutine(IETriggerShield());
+    }
+
+    private IEnumerator IETriggerShield() {
+        
+        var elapsedTime = 0f;
+
+        var halfTriggerTime = _shieldTriggerTime / 2f;
+
+        while (elapsedTime < halfTriggerTime)
+        {
+            elapsedTime += Time.deltaTime;
+
+            _shieldRenderer.color = Color.Lerp(Color.white, Color.red, elapsedTime / halfTriggerTime);
+            yield return null;
+        }
+
+        elapsedTime = 0f;
+
+        while (elapsedTime < halfTriggerTime)
+        {
+            elapsedTime += Time.deltaTime;
+
+            _shieldRenderer.color = Color.Lerp(Color.red, Color.white, elapsedTime / halfTriggerTime);
+            yield return null;
+        }        
+    }
+
+    private IEnumerator IEActivateShield()
+    {
+        var shieldEndingTime = _shieldDuration * 0.30f;
+        _shieldAnimator.SetBool("Shield", true);
+
+        yield return new WaitForSeconds(_shieldDuration - shieldEndingTime);
+
+        _shieldAnimator.SetBool("Shield_Ending", true);
+
+        yield return new WaitForSeconds(shieldEndingTime);
+
+        _shieldAnimator.SetBool("Shield", false);
+        _shieldAnimator.SetBool("Shield_Ending", false);
+        _shield = false;
+        _shieldGuard = false;
     }
 
     public void TakeDamage()
@@ -60,6 +127,12 @@ public class Player : MonoBehaviour
             Destroy(_player);
             Destroy(gameObject);
         }
+    }
+
+    public void AddScore(int score)
+    {
+        _score += score;
+        _uiController.DisplayScore(_score);
     }
 
     private void ForcePlayerInBounds(Transform t)
@@ -89,11 +162,11 @@ public class Player : MonoBehaviour
         _bulletController.GeneratePlayerBullet(pos);
     }
 
-    IEnumerator Shooting()
+    IEnumerator IEShooting()
     {
         yield return new WaitForSeconds(_shootingSpeed);
         PlayerShoot();
-        StartCoroutine(Shooting());
+        StartCoroutine(IEShooting());
     }
 
     private void FixedUpdate()
@@ -129,4 +202,6 @@ public class Player : MonoBehaviour
 
         return new Vector4(xMin, xMax, yMin, yMax);
     }
+
+    public bool IsShielded { get => _shield; }
 }
