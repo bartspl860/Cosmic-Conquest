@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _playerHealth;
     [SerializeField]
+    private int _playerMaxHealth;
+    [SerializeField]
     private bool _shield;
     [SerializeField]
     private float _shieldDuration;
@@ -50,7 +52,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         _playerRigidbody = _player.GetComponent<Rigidbody2D>();
-        _uiController.DisplayHealthPoints(_playerHealth);
+        _uiController.DisplayHealthPoints(_playerHealth, _playerMaxHealth);
         _screenBounds = GetScreenBounds();
         StartCoroutine(IEShooting());       
     }
@@ -83,7 +85,7 @@ public class Player : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
 
-            _shieldRenderer.color = Color.Lerp(Color.white, Color.red, elapsedTime / halfTriggerTime);
+            _shieldRenderer.color = Color.Lerp(Color.white, new Color(1.0f, 165/255.0f, 0.0f, 1.0f), elapsedTime / halfTriggerTime);
             yield return null;
         }
 
@@ -93,7 +95,7 @@ public class Player : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
 
-            _shieldRenderer.color = Color.Lerp(Color.red, Color.white, elapsedTime / halfTriggerTime);
+            _shieldRenderer.color = Color.Lerp(new Color(1.0f, 165 / 255.0f, 0.0f, 1.0f), Color.white, elapsedTime / halfTriggerTime);
             yield return null;
         }        
     }
@@ -119,7 +121,7 @@ public class Player : MonoBehaviour
     {        
         _shaking.startShake();
         _playerHealth--;
-        _uiController.DisplayHealthPoints(_playerHealth);
+        _uiController.DisplayHealthPoints(_playerHealth, _playerMaxHealth);
         if ( _playerHealth < 1 ) 
         {
             _enviromentController.StopMainSequence();

@@ -40,6 +40,9 @@ public class Asteroid : MonoBehaviour
             StartCoroutine(DestroySelf());
             var player = FindFirstObjectByType<Player>();
 
+            if (player == null)
+                return;
+
             if(!player.IsShielded)
             {
                 player.TakeDamage();
@@ -60,7 +63,11 @@ public class Asteroid : MonoBehaviour
             _lifes--;            
             if ( _lifes <= 0)
             {
-                FindFirstObjectByType<Player>().AddScore(_points);
+                var player = FindFirstObjectByType<Player>();
+                if(player != null)
+                {
+                    player.AddScore(_points);
+                }                
                 if (_bigAsteroid)
                 {
                     var randomAsteroidNum = Random.Range(0, 3);

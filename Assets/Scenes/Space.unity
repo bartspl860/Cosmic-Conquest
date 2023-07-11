@@ -1194,6 +1194,7 @@ MonoBehaviour:
   _playerRotationAngle: 10
   _shootingSpeed: 0.8
   _playerHealth: 3
+  _playerMaxHealth: 5
   _shield: 0
   _shieldDuration: 10
   _shieldTriggerTime: 0.2
@@ -1302,9 +1303,9 @@ RectTransform:
   m_Father: {fileID: 1617179134}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -371, y: 237}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 123, y: -42}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1612306827
@@ -1480,7 +1481,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0.638
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -1542,9 +1543,9 @@ RectTransform:
   m_Father: {fileID: 1617179134}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -340, y: -129}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 139, y: 178}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1668994871
@@ -1567,12 +1568,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '<sprite name="player_life">
+  m_text: '<sprite name="player_life_blue_asset_0">
 
-    <sprite name="player_life">
+    <sprite name="player_life_blue_asset_0">
 
     <sprite
-    name="player_life">'
+    name="player_life_blue_asset_0">'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1591,7 +1592,7 @@ MonoBehaviour:
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
   m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 11400000, guid: 2fe4b1c6e5c16c943a2e14a0d1c09e85, type: 2}
+  m_spriteAsset: {fileID: 11400000, guid: d1c86ee026aed2942938ca20fcb280f3, type: 2}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
   m_TextStyleHashCode: -1183493901
@@ -1599,15 +1600,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 35
+  m_fontSizeBase: 35
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 25
+  m_fontSizeMax: 35
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 1024
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1635,7 +1636,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -1.2044678, y: 0, z: -2.4088745, w: -134.8934}
+  m_margin: {x: -1.2044678, y: 0, z: -14.746445, w: -121.43431}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1799,7 +1800,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b33079ef3a51eb42b96c4749c4da042, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthPointSpriteAssetName: player_life
+  _healthPointGraySpriteAssetName: player_life_blue_asset_1
+  _healthPointSpriteAssetName: player_life_blue_asset_0
   _healtBar: {fileID: 1668994871}
   _score: {fileID: 1612306827}
 --- !u!1 &1820143091

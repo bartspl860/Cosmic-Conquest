@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum GameState
@@ -32,25 +33,22 @@ public class EntitiesController : MonoBehaviour
     public void AddGameState(params GameState[] states)
     {
         foreach(var state in states)
-        {
-            if (_currentlyRunningGameStates.Contains(state))
+        {            
+            if (!_currentlyRunningGameStates.Contains(state))
             {
-                continue;
+                _currentlyRunningGameStates.Add(state);                
+                StartCoroutine(_gameStates[state]);                
             }                
-
-            StartCoroutine(_gameStates[state]);
-            _currentlyRunningGameStates.Add(state);
         } 
     }
 
-    public void RemoveGameState(GameState state)
+    public void RemoveGameState(params GameState[] states)
     {
-        _currentlyRunningGameStates.Remove(state);
-        StopAll();
-        foreach(var s in _currentlyRunningGameStates)
+        foreach(var state in states)
         {
-            StartCoroutine(_gameStates[s]);
-        }
+            _currentlyRunningGameStates.Remove(state);
+            StopCoroutine(_gameStates[state]);
+        }       
     }
 
     public void StopAll()

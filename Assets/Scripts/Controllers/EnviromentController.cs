@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class EnviromentController : MonoBehaviour
 {
+    [SerializeField, Header("Game State Control")]
+    private bool _asteroids;
+    [SerializeField]
+    private bool _defaultEnemies;
+
     [SerializeField, Header("Dependencies")]
     private EntitiesController _entitiesController;
 
@@ -12,13 +17,32 @@ public class EnviromentController : MonoBehaviour
     {
         //StartCoroutine(MainSequence());
         StartCoroutine(Stars());
-        _entitiesController.AddGameState(GameState.Asteroids);
     }
 
     public void StopMainSequence()
     {
         _entitiesController.StopAll();
         StopAllCoroutines();
+    }
+
+    private void Update()
+    {
+        if( _asteroids )
+        {
+            _entitiesController.AddGameState(GameState.Asteroids);
+        }
+        else
+        {
+            _entitiesController.RemoveGameState(GameState.Asteroids);
+        }
+        if( _defaultEnemies)
+        {
+            _entitiesController.AddGameState(GameState.DefaultEnemies);
+        }
+        else
+        {
+            _entitiesController.RemoveGameState(GameState.DefaultEnemies);
+        }
     }
 
     private IEnumerator MainSequence()
