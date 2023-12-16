@@ -1,39 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
-public class UIController : MonoBehaviour
+namespace Controllers
 {
-    [SerializeField, Header("Properties")]
-    private string _healthPointGraySpriteAssetName;
-    [SerializeField]
-    private string _healthPointSpriteAssetName;
-    [SerializeField, Header("Dependencies")]
-    private TextMeshProUGUI _healtBar;
-    [SerializeField]
-    private TextMeshProUGUI _score;
-
-
-    public void DisplayHealthPoints(int nPoints, int maxNPoints)
+    public class UIController : MonoBehaviour
     {
-        Assert.IsTrue(nPoints <= maxNPoints);
+        [SerializeField, Header("Properties")]
+        private string healthPointGraySpriteAssetName;
+        [SerializeField]
+        private string healthPointSpriteAssetName;
+        [SerializeField, Header("Dependencies")]
+        private TextMeshProUGUI healthBar;
+        [SerializeField]
+        private TextMeshProUGUI score;
 
-        _healtBar.text = string.Empty;
-        for (int i = 0; i < maxNPoints - nPoints; i++)
+        public void DisplayHealthPoints(int nPoints, int maxNPoints)
         {
-            _healtBar.text += $"<sprite name=\"{_healthPointGraySpriteAssetName}\">\n";
+            Assert.IsTrue(nPoints <= maxNPoints);
+            healthBar.text = string.Empty;
+            for (int i = 0; i < maxNPoints - nPoints; i++)
+            {
+                healthBar.text += $"<sprite name=\"{healthPointGraySpriteAssetName}\">\n";
+            }
+            for (int i = 0; i < nPoints; i++)
+            {
+                healthBar.text += $"<sprite name=\"{healthPointSpriteAssetName}\">\n";
+            }        
         }
-        for (int i = 0; i < nPoints; i++)
-        {
-            _healtBar.text += $"<sprite name=\"{_healthPointSpriteAssetName}\">\n";
-        }        
-    }
 
-    public void DisplayScore(int score)
-    {
-        _score.text = $"score: {score}";
+        public void DisplayScore(int score)
+        {
+            this.score.text = $"score: {score}";
+        }
     }
 }

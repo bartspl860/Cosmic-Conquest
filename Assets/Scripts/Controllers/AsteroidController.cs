@@ -1,15 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class AsteroidController : MonoBehaviour
+namespace Controllers
 {
-    [SerializeField]
-    private GameObject[] _asteroidPrefabs;
-
-    public void GenerateRandomAsteroid(Vector2 pos)
+    public class AsteroidController : MonoBehaviour
     {
-        var asteroid = Instantiate(_asteroidPrefabs[Random.Range(0, _asteroidPrefabs.Length)]);
-        asteroid.transform.position = pos;
+        [SerializeField]
+        private GameObject[] _asteroidPrefabs;
+
+        public void GenerateRandomAsteroid(Vector2 pos)
+        {
+            var asteroid = Instantiate(_asteroidPrefabs[Random.Range(0, _asteroidPrefabs.Length)]);
+            asteroid.transform.position = pos;
+        }
     }
 }

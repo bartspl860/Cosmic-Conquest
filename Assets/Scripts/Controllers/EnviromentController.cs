@@ -1,71 +1,72 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-public class EnviromentController : MonoBehaviour
+namespace Controllers
 {
-    [SerializeField, Header("Game State Control")]
-    private bool _asteroids;
-    [SerializeField]
-    private bool _defaultEnemies;
-
-    [SerializeField, Header("Dependencies")]
-    private EntitiesController _entitiesController;
-
-    private void Start()
+    public class EnviromentController : MonoBehaviour
     {
-        //StartCoroutine(MainSequence());
-        StartCoroutine(Stars());
-    }
+        [SerializeField, Header("Game State Control")]
+        private bool _asteroids;
+        [SerializeField]
+        private bool _defaultEnemies;
 
-    public void StopMainSequence()
-    {
-        _entitiesController.StopAll();
-        StopAllCoroutines();
-    }
+        [SerializeField, Header("Dependencies")]
+        private EntitiesController _entitiesController;
 
-    private void Update()
-    {
-        if( _asteroids )
+        private void Start()
         {
-            _entitiesController.AddGameState(GameState.Asteroids);
+            //StartCoroutine(MainSequence());
+            StartCoroutine(Stars());
         }
-        else
-        {
-            _entitiesController.RemoveGameState(GameState.Asteroids);
-        }
-        if( _defaultEnemies)
-        {
-            _entitiesController.AddGameState(GameState.DefaultEnemies);
-        }
-        else
-        {
-            _entitiesController.RemoveGameState(GameState.DefaultEnemies);
-        }
-    }
 
-    private IEnumerator MainSequence()
-    {
-        while (true)
+        public void StopMainSequence()
         {
-            var seq = Random.Range(0, 2);
-            switch (seq)
-            {
-                case 0: _entitiesController.AddGameState(GameState.Asteroids, GameState.DefaultEnemies); break;
-                case 1: _entitiesController.AddGameState(GameState.Asteroids); break;
-                case 2: _entitiesController.AddGameState(GameState.DefaultEnemies); break;
-            }
-            yield return new WaitForSeconds(Random.Range(5f, 30f));
-
             _entitiesController.StopAll();
-        }       
-    }
+            StopAllCoroutines();
+        }
 
-    private IEnumerator Stars()
-    {
-        _entitiesController.GenerateStars();
-        yield return new WaitForSeconds(3f);
-        StartCoroutine(Stars());
+        private void Update()
+        {
+            if( _asteroids )
+            {
+                _entitiesController.AddGameState(GameState.Asteroids);
+            }
+            else
+            {
+                _entitiesController.RemoveGameState(GameState.Asteroids);
+            }
+            if( _defaultEnemies)
+            {
+                _entitiesController.AddGameState(GameState.DefaultEnemies);
+            }
+            else
+            {
+                _entitiesController.RemoveGameState(GameState.DefaultEnemies);
+            }
+        }
+
+        private IEnumerator MainSequence()
+        {
+            while (true)
+            {
+                var seq = Random.Range(0, 2);
+                switch (seq)
+                {
+                    case 0: _entitiesController.AddGameState(GameState.Asteroids, GameState.DefaultEnemies); break;
+                    case 1: _entitiesController.AddGameState(GameState.Asteroids); break;
+                    case 2: _entitiesController.AddGameState(GameState.DefaultEnemies); break;
+                }
+                yield return new WaitForSeconds(Random.Range(5f, 30f));
+
+                _entitiesController.StopAll();
+            }       
+        }
+
+        private IEnumerator Stars()
+        {
+            _entitiesController.GenerateStars();
+            yield return new WaitForSeconds(3f);
+            StartCoroutine(Stars());
+        }
     }
 }

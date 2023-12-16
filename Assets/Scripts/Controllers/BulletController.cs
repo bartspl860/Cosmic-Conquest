@@ -1,36 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using Audio;
 using UnityEngine;
 
-public class BulletController : MonoBehaviour
+namespace Controllers
 {
-    [SerializeField]
-    private GameObject _bulletPrefab;
-    [SerializeField]
-    private GameObject _enemyBulletPrefab;
-
-    [SerializeField, Header("Atributes")]
-    private float _playerBulletSpeed;
-    [SerializeField]
-    private float _enemyBulletSpeed;
-
-    public void GeneratePlayerBullet(Vector2 pos)
+    public class BulletController : MonoBehaviour
     {
-        var bullet = Instantiate( _bulletPrefab );
-        bullet.transform.position = pos;       
+        [SerializeField]
+        private GameObject _bulletPrefab;
+        [SerializeField]
+        private GameObject _enemyBulletPrefab;
 
-        var bulletRb2d = bullet.GetComponent<Rigidbody2D>();
-        bulletRb2d.velocity = new Vector2(0, _playerBulletSpeed);
+        [SerializeField, Header("Atributes")]
+        private float _playerBulletSpeed;
+        [SerializeField]
+        private float _enemyBulletSpeed;
 
-    }
+        public void GeneratePlayerBullet(Vector2 pos)
+        {
+            var bullet = Instantiate( _bulletPrefab );
+            bullet.transform.position = pos;       
 
-    public void GenerateEnemyBullet(Vector2 pos)
-    {
-        var bullet = Instantiate(_enemyBulletPrefab);
-        bullet.transform.position = pos;
+            var bulletRb2d = bullet.GetComponent<Rigidbody2D>();
+            bulletRb2d.velocity = new Vector2(0, _playerBulletSpeed);
 
-        var bulletRb2d = bullet.GetComponent<Rigidbody2D>();
-        bulletRb2d.velocity = new Vector2(0, -_enemyBulletSpeed);
+            AudioManager.Instance.PlaySound("shoot");
+        }
+
+        public void GenerateEnemyBullet(Vector2 pos)
+        {
+            var bullet = Instantiate(_enemyBulletPrefab);
+            bullet.transform.position = pos;
+
+            var bulletRb2d = bullet.GetComponent<Rigidbody2D>();
+            bulletRb2d.velocity = new Vector2(0, -_enemyBulletSpeed);
+        }
     }
 }

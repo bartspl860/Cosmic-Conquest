@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Audio;
 using UnityEngine;
 
 public class Asteroid : MonoBehaviour
@@ -10,7 +11,7 @@ public class Asteroid : MonoBehaviour
     private int _lifes;
     [SerializeField]
     private int _points;
-    [SerializeField, Header("If big asteroid, generate small")]    
+    [SerializeField, Header("If big asteroid gets destroyed, generate small")]    
     private bool _isBrown;
     [SerializeField]
     private GameObject _smallBrownAsteroidPrefab;
@@ -37,7 +38,7 @@ public class Asteroid : MonoBehaviour
         //asteroid collides with player and makes particle effect
         if (collision.CompareTag("Player"))
         {
-            StartCoroutine(DestroySelf());
+            StartCoroutine(DestroySelf(collisionWithPlayer: true));
             var player = FindFirstObjectByType<Player>();
 
             if (player == null)
@@ -57,7 +58,7 @@ public class Asteroid : MonoBehaviour
         {
             return;
         }
-        //asteroid collides with bullet, takes damage and destroys itself immediately
+        //asteroid collides with bullet, takes damage and destroys itself when lives are 0
         else
         {
             _lifes--;            
@@ -86,18 +87,24 @@ public class Asteroid : MonoBehaviour
                         prefab.transform.position = position;
                     }
                 }
-                Destroy(gameObject);
+                StartCoroutine(DestroySelf());
             }
-                
+            else
+            {
+                AudioManager.Instance.PlaySound("asteroid_hit");
+            }
         }
     }
 
-    private IEnumerator DestroySelf()
+    private IEnumerator DestroySelf(bool collisionWithPlayer = false)
     {
         var ps = GetComponent<ParticleSystem>();
         ps.Play();        
         GetComponent<SpriteRenderer>().enabled = false;
-        
+        if (collisionWithPlayer)
+            AudioManager.Instance.PlaySound("hit");
+        else
+            AudioManager.Instance.PlaySound("asteroid_destroy");
         
         yield return new WaitForSeconds(ps.main.duration);
 

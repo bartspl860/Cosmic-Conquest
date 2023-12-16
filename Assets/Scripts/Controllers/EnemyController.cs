@@ -1,15 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+namespace Controllers
 {
-    [SerializeField]
-    private GameObject _defaultEnemyPrefab;
-
-    public void GenerateDefaultEnemy(Vector2 pos)
+    public class EnemyController : MonoBehaviour
     {
-        var enemy = Instantiate(_defaultEnemyPrefab);
-        enemy.transform.position = pos;        
+        [SerializeField]
+        private GameObject _defaultEnemyPrefab;
+
+        public void GenerateDefaultEnemy(Vector2 pos)
+        {
+            var enemy = Instantiate(_defaultEnemyPrefab);
+            enemy.transform.position = pos;        
+        }
     }
 }
