@@ -1,33 +1,35 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Fading : MonoBehaviour
+namespace Effects
 {
-    [SerializeField]
-    private float _duration;
-    [SerializeField]
-    private AnimationCurve _curve;
-    [SerializeField]
-    private TextMeshProUGUI _text;
-
-    public void startFade()
+    public class Fading : MonoBehaviour
     {
-        StartCoroutine(Fade());
-    }
+        [SerializeField]
+        private float _duration;
+        [SerializeField]
+        private AnimationCurve _curve;
+        [SerializeField]
+        private TextMeshProUGUI _text;
 
-    private IEnumerator Fade()
-    {
-        float elapsedTime = 0f;
-
-        while (elapsedTime < _duration)
+        public void startFade()
         {
-            elapsedTime += Time.deltaTime;
-            float strenght = _curve.Evaluate(elapsedTime / _duration);
-            var c = _text.color;
-            _text.color = new Color(c.r, c.g, c.b, strenght);
-            yield return null;
+            StartCoroutine(Fade());
+        }
+
+        private IEnumerator Fade()
+        {
+            float elapsedTime = 0f;
+
+            while (elapsedTime < _duration)
+            {
+                elapsedTime += Time.deltaTime;
+                float strenght = _curve.Evaluate(elapsedTime / _duration);
+                var c = _text.color;
+                _text.color = new Color(c.r, c.g, c.b, strenght);
+                yield return null;
+            }
         }
     }
 }

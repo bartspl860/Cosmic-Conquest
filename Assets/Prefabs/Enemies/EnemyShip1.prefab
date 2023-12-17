@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 808320858196393055}
   - component: {fileID: 9042498291063467695}
   m_Layer: 7
-  m_Name: DefaultEnemy
+  m_Name: EnemyShip1
   m_TagString: Destroyable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

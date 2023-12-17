@@ -1,210 +1,234 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using Controllers;
-using TMPro;
+using Effects;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class Player : MonoBehaviour
+namespace Player
 {
-    protected Player() { }
-
-    [SerializeField, Header("Instance")]
-    private GameObject _player;    
-    [SerializeField, Header("Properties")]
-    private float _playerSpeed;
-    [SerializeField]
-    private float _playerRotationAngle;
-    [SerializeField]
-    private float _shootingSpeed;
-    [SerializeField]
-    private int _playerHealth;
-    [SerializeField]
-    private int _playerMaxHealth;
-    [SerializeField]
-    private bool _shield;
-    [SerializeField]
-    private float _shieldDuration;
-    [SerializeField]
-    private float _shieldTriggerTime;
-    [SerializeField]
-    private Sprite _playerHealthSprite;
-    [SerializeField]
-    private int _score;
-    [SerializeField, Header("Dependencies")]
-    private BulletController _bulletController;
-    [SerializeField]
-    private UIController _uiController;
-    [SerializeField]
-    private EnviromentController _enviromentController;
-    [SerializeField]
-    private Shaking _shaking;
-    [SerializeField]
-    private Fading _fading;
-    [SerializeField]
-    private SpriteRenderer _shieldRenderer;
-    [SerializeField]
-    private Animator _shieldAnimator;
-
-    private Rigidbody2D _playerRigidbody;
-
-    public static Vector4 _screenBounds;
-
-    private void Start()
+    public class Player : MonoBehaviour
     {
-        _playerRigidbody = _player.GetComponent<Rigidbody2D>();
-        _uiController.DisplayHealthPoints(_playerHealth, _playerMaxHealth);
-        _screenBounds = GetScreenBounds();
-        StartCoroutine(IEShooting());       
-    }
+        protected Player() { }
 
+        [SerializeField, Header("Instance")]
+        private GameObject _player;    
+        [SerializeField, Header("Properties")]
+        private float _playerSpeed;
+        [SerializeField]
+        private float _playerRotationAngle;
+        [SerializeField]
+        private float _shootingSpeed;
+        [SerializeField]
+        private int _playerHealth;
+        [SerializeField]
+        private int _playerMaxHealth;
+        [SerializeField]
+        private bool _shield;
+        [SerializeField]
+        private float _shieldDuration;
+        [SerializeField]
+        private float _shieldTriggerTime;
+        [SerializeField]
+        private Sprite _playerHealthSprite;
+        [SerializeField]
+        private int _score;
+        [SerializeField]
+        private bool _invincible = false;
+        [SerializeField, Header("Dependencies")]
+        private BulletController _bulletController;
+        [SerializeField]
+        private UIController _uiController;
+        [SerializeField]
+        private EnviromentController _enviromentController;
+        [SerializeField]
+        private Shaking _screenShaking;
+        [SerializeField] 
+        private Twinkling _playerTwinkling;
+        [SerializeField]
+        private Fading _gameOverTMPfading;
+        [SerializeField]
+        private SpriteRenderer _shieldRenderer;
+        [SerializeField]
+        private Animator _shieldAnimator;
 
-    private bool _shieldGuard = false;
-    private void Update()
-    {
-        ForcePlayerInBounds(_player.transform);
+        private Rigidbody2D _playerRigidbody;
 
-        if(_shield && !_shieldGuard)
+        public static Vector4 _screenBounds;
+
+        private void Start()
         {
-            _shieldGuard = true;
-            StartCoroutine(IEActivateShield());            
+            _playerRigidbody = _player.GetComponent<Rigidbody2D>();
+            _uiController.DisplayHealthPoints(_playerHealth, _playerMaxHealth);
+            _screenBounds = GetScreenBounds();
+            //StartCoroutine(IEShooting());
         }
-    }
 
-    public void TriggerShield()
-    {
-        StartCoroutine(IETriggerShield());
-    }
 
-    private IEnumerator IETriggerShield() {
+        private bool _shieldGuard = false;
+        private void Update()
+        {
+            ForcePlayerInBounds(_player.transform);
+            if(_shield && !_shieldGuard)
+            {
+                _shieldGuard = true;
+                StartCoroutine(IEActivateShield());            
+            }
+        }
+
+        public void TriggerShield()
+        {
+            StartCoroutine(IETriggerShield());
+        }
+
+        private IEnumerator IETriggerShield() {
         
-        var elapsedTime = 0f;
+            var elapsedTime = 0f;
 
-        var halfTriggerTime = _shieldTriggerTime / 2f;
+            var halfTriggerTime = _shieldTriggerTime / 2f;
 
-        while (elapsedTime < halfTriggerTime)
-        {
-            elapsedTime += Time.deltaTime;
+            while (elapsedTime < halfTriggerTime)
+            {
+                elapsedTime += Time.deltaTime;
 
-            _shieldRenderer.color = Color.Lerp(Color.white, new Color(1.0f, 165/255.0f, 0.0f, 1.0f), elapsedTime / halfTriggerTime);
-            yield return null;
+                _shieldRenderer.color = Color.Lerp(Color.white, new Color(1.0f, 165/255.0f, 0.0f, 1.0f), elapsedTime / halfTriggerTime);
+                yield return null;
+            }
+
+            elapsedTime = 0f;
+
+            while (elapsedTime < halfTriggerTime)
+            {
+                elapsedTime += Time.deltaTime;
+
+                _shieldRenderer.color = Color.Lerp(new Color(1.0f, 165 / 255.0f, 0.0f, 1.0f), Color.white, elapsedTime / halfTriggerTime);
+                yield return null;
+            }        
         }
 
-        elapsedTime = 0f;
-
-        while (elapsedTime < halfTriggerTime)
+        private IEnumerator IEActivateShield()
         {
-            elapsedTime += Time.deltaTime;
+            var shieldEndingTime = _shieldDuration * 0.30f;
+            _shieldAnimator.SetBool("Shield", true);
 
-            _shieldRenderer.color = Color.Lerp(new Color(1.0f, 165 / 255.0f, 0.0f, 1.0f), Color.white, elapsedTime / halfTriggerTime);
-            yield return null;
-        }        
-    }
+            yield return new WaitForSeconds(_shieldDuration - shieldEndingTime);
 
-    private IEnumerator IEActivateShield()
-    {
-        var shieldEndingTime = _shieldDuration * 0.30f;
-        _shieldAnimator.SetBool("Shield", true);
+            _shieldAnimator.SetBool("Shield_Ending", true);
 
-        yield return new WaitForSeconds(_shieldDuration - shieldEndingTime);
+            yield return new WaitForSeconds(shieldEndingTime);
 
-        _shieldAnimator.SetBool("Shield_Ending", true);
-
-        yield return new WaitForSeconds(shieldEndingTime);
-
-        _shieldAnimator.SetBool("Shield", false);
-        _shieldAnimator.SetBool("Shield_Ending", false);
-        _shield = false;
-        _shieldGuard = false;
-    }
-
-    public void TakeDamage()
-    {        
-        _shaking.startShake();
-        _playerHealth--;
-        _uiController.DisplayHealthPoints(_playerHealth, _playerMaxHealth);
-        if ( _playerHealth < 1 ) 
-        {
-            _enviromentController.StopMainSequence();
-            _fading.startFade();
-            Destroy(_player);
-            Destroy(gameObject);
+            _shieldAnimator.SetBool("Shield", false);
+            _shieldAnimator.SetBool("Shield_Ending", false);
+            _shield = false;
+            _shieldGuard = false;
         }
-    }
 
-    public void AddScore(int score)
-    {
-        _score += score;
-        _uiController.DisplayScore(_score);
-    }
-
-    private void ForcePlayerInBounds(Transform t)
-    {
-        if(t.position.x < _screenBounds.x)
+        private IEnumerator IEActivateInvincibility(float duration)
         {
-            t.position = new Vector2(_screenBounds.x, t.position.y);
+            _invincible = true;
+            _playerTwinkling.StartTwinkling(frequency: 15f);
+            yield return new WaitForSeconds(duration);
+            _invincible = false;
+            _playerTwinkling.StopTwinkling();
         }
-        else if(t.position.x > _screenBounds.y)
+        public void TemporaryInvincibility(float seconds)
         {
-            t.position = new Vector2(_screenBounds.y, t.position.y);
+            if(_invincible)
+                return;
+            StartCoroutine(IEActivateInvincibility(seconds));
         }
-        if (t.position.y < _screenBounds.z)
+        public void TakeDamage()
+        {   
+            if(_invincible)
+                return;
+            _screenShaking.startShake();
+            _playerHealth--;
+            _uiController.DisplayHealthPoints(_playerHealth, _playerMaxHealth);
+            if ( _playerHealth < 1 ) 
+            {
+                _enviromentController.StopMainSequence();
+                _gameOverTMPfading.startFade();
+                Destroy(_player);
+                Destroy(gameObject);
+            }
+        }
+
+        public void AddScore(int score)
         {
-            t.position = new Vector2(t.position.x, _screenBounds.z);
+            _score += score;
+            _uiController.DisplayScore(_score);
         }
-        else if (t.position.y > _screenBounds.w)
+
+        private void ForcePlayerInBounds(Transform t)
         {
-            t.position = new Vector2(t.position.x, _screenBounds.w);
+            if(t.position.x < _screenBounds.x)
+            {
+                t.position = new Vector2(_screenBounds.x, t.position.y);
+            }
+            else if(t.position.x > _screenBounds.y)
+            {
+                t.position = new Vector2(_screenBounds.y, t.position.y);
+            }
+            if (t.position.y < _screenBounds.z)
+            {
+                t.position = new Vector2(t.position.x, _screenBounds.z);
+            }
+            else if (t.position.y > _screenBounds.w)
+            {
+                t.position = new Vector2(t.position.x, _screenBounds.w);
+            }
         }
+
+        private void PlayerShoot()
+        {
+            var pos = _player.transform.position;
+            pos.y += 0.3f;
+            _bulletController.GeneratePlayerBullet(pos);
+        }
+
+        IEnumerator IEShooting()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(_shootingSpeed);
+                PlayerShoot();
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            // Get input axes
+            float moveHorizontal = Input.GetAxis("Horizontal");
+            float moveVertical = Input.GetAxis("Vertical");
+
+            // Calculate movement vector
+            Vector2 movement = new Vector2(moveHorizontal, moveVertical);
+
+            // Apply movement
+            _playerRigidbody.velocity = movement * _playerSpeed;
+
+            //Rotate Ship
+            float _playerRotation = moveHorizontal * -_playerRotationAngle;
+            _player.transform.rotation = Quaternion.Euler(new Vector3(0, 0, _playerRotation));
+        }
+
+        private Vector4 GetScreenBounds()
+        {
+            float objectWidth = transform.localScale.x;
+            float objectHeight = transform.localScale.y;
+
+            float screenAspect = (float)Screen.width / Screen.height;
+            float cameraHeight = Camera.main.orthographicSize * 2;
+            float cameraWidth = cameraHeight * screenAspect;
+
+            float xMin = Camera.main.transform.position.x - cameraWidth / 2f + objectWidth / 2f;
+            float xMax = Camera.main.transform.position.x + cameraWidth / 2f - objectWidth / 2f;
+            float yMin = Camera.main.transform.position.y - cameraHeight / 2f + objectHeight / 2f;
+            float yMax = Camera.main.transform.position.y + cameraHeight / 2f - objectHeight / 2f;
+
+            return new Vector4(xMin, xMax, yMin, yMax);
+        }
+
+        public bool IsShielded { get => _shield; }
+        public bool IsInvincible => _invincible;
     }
-
-    public void PlayerShoot()
-    {
-        var pos = _player.transform.position;
-        pos.y += 0.3f;
-        _bulletController.GeneratePlayerBullet(pos);
-    }
-
-    IEnumerator IEShooting()
-    {
-        yield return new WaitForSeconds(_shootingSpeed);
-        PlayerShoot();
-        StartCoroutine(IEShooting());
-    }
-
-    private void FixedUpdate()
-    {
-        // Get input axes
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
-
-        // Calculate movement vector
-        Vector2 movement = new Vector2(moveHorizontal, moveVertical);
-
-        // Apply movement
-        _playerRigidbody.velocity = movement * _playerSpeed;
-
-        //Rotate Ship
-        float _playerRotation = moveHorizontal * -_playerRotationAngle;
-        _player.transform.rotation = Quaternion.Euler(new Vector3(0, 0, _playerRotation));
-    }
-
-    private Vector4 GetScreenBounds()
-    {
-        float objectWidth = transform.localScale.x;
-        float objectHeight = transform.localScale.y;
-
-        float screenAspect = (float)Screen.width / Screen.height;
-        float cameraHeight = Camera.main.orthographicSize * 2;
-        float cameraWidth = cameraHeight * screenAspect;
-
-        float xMin = Camera.main.transform.position.x - cameraWidth / 2f + objectWidth / 2f;
-        float xMax = Camera.main.transform.position.x + cameraWidth / 2f - objectWidth / 2f;
-        float yMin = Camera.main.transform.position.y - cameraHeight / 2f + objectHeight / 2f;
-        float yMax = Camera.main.transform.position.y + cameraHeight / 2f - objectHeight / 2f;
-
-        return new Vector4(xMin, xMax, yMin, yMax);
-    }
-
-    public bool IsShielded { get => _shield; }
 }

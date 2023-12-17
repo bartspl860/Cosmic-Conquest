@@ -209,6 +209,38 @@ MonoBehaviour:
       loop: 0
       fadingSpeed: 0
       isPaused: 0
+    - name: hit
+      clip: {fileID: 8300000, guid: 05a8476cb5b94124eb9b8551fff72d8b, type: 3}
+      volume: 1
+      pitch: 1
+      volumeRandomness: 0
+      pitchRandomness: 0
+      loop: 0
+      fadingSpeed: 0
+      isPaused: 0
+  - categoryName: Enviroment
+    volume: 1
+    autoPlay: 0
+    autoPlayOffset: 0
+    sounds:
+    - name: asteroid_destroy
+      clip: {fileID: 8300000, guid: 9aee63f329bf9564a9aee5d4b66c502f, type: 3}
+      volume: 1
+      pitch: 1
+      volumeRandomness: 0
+      pitchRandomness: 0
+      loop: 0
+      fadingSpeed: 0
+      isPaused: 0
+    - name: asteroid_hit
+      clip: {fileID: 8300000, guid: f28dc45cb0d22ad4c85892890aa30031, type: 3}
+      volume: 1
+      pitch: 1
+      volumeRandomness: 0
+      pitchRandomness: 0
+      loop: 0
+      fadingSpeed: 0
+      isPaused: 0
 --- !u!4 &240574107
 Transform:
   m_ObjectHideFlags: 0
@@ -1910,9 +1942,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69d12ff574ee6fb41b7ebdf81667178c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyController: {fileID: 319995842}
-  _starController: {fileID: 384172738}
-  _asteroidController: {fileID: 1233139582}
+  enemyController: {fileID: 319995842}
+  starController: {fileID: 384172738}
+  asteroidController: {fileID: 1233139582}
 --- !u!1 &1862723845
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,7 +11,8 @@ namespace Controllers
     public enum GameState
     {
         None,
-        DefaultEnemies,
+        DefaultShips,
+        SnakeShips,
         Asteroids
     }
 
@@ -26,15 +27,13 @@ namespace Controllers
         private readonly Dictionary<GameState, IEnumerator> _gameStates = new Dictionary<GameState, IEnumerator>();
         private List<GameState> _currentlyRunningGameStates = new List<GameState>();
 
-        public List<GameState> RunningGameStates
-        {
-            get => _currentlyRunningGameStates;
-        }
+        public List<GameState> RunningGameStates => _currentlyRunningGameStates;
 
         private void Start()
         {
             _gameStates.Add(GameState.Asteroids, GenerateAsteroid());
-            _gameStates.Add(GameState.DefaultEnemies, GenerateDefaultEnemies());
+            _gameStates.Add(GameState.DefaultShips, GenerateDefaultShips());
+            _gameStates.Add(GameState.SnakeShips, GenerateSnakeShips());
         }
 
         public void AddGameState(params GameState[] states)
@@ -76,7 +75,7 @@ namespace Controllers
             }
         }
 
-        private IEnumerator GenerateDefaultEnemies()
+        private IEnumerator GenerateDefaultShips()
         {
             while (true)
             {
@@ -86,6 +85,14 @@ namespace Controllers
                 float pos_y = Random.Range(1.5f, 4.5f);
 
                 enemyController.GenerateDefaultEnemy(new Vector2(pos_x, pos_y));
+            }
+        }
+
+        private IEnumerator GenerateSnakeShips()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(3);
             }
         }
 

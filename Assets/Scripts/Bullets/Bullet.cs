@@ -13,16 +13,16 @@ public class Bullet : MonoBehaviour
     [SerializeField]
     private ImpactOn _impactTag;
 
-    private Player _player;
+    private Player.Player _player;
     private ParticleSystem _particleSystem;
 
     private void Start()
     {
         Bounds = new Vector2(
-            Player._screenBounds.z, 
-            Player._screenBounds.w
+            Player.Player._screenBounds.z, 
+            Player.Player._screenBounds.w
         );        
-        _player = FindFirstObjectByType<Player>();
+        _player = FindFirstObjectByType<Player.Player>();
         _particleSystem = GetComponent<ParticleSystem>();
     }    
 

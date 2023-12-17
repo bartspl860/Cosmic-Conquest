@@ -1,32 +1,34 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Shaking : MonoBehaviour
+namespace Effects
 {
-    [SerializeField]
-    private float _duration;
-    [SerializeField]
-    private AnimationCurve _curve;
-
-    public void startShake()
+    public class Shaking : MonoBehaviour
     {
-        StartCoroutine(Shake());
-    }
+        [SerializeField]
+        private float _duration;
+        [SerializeField]
+        private AnimationCurve _curve;
 
-    private IEnumerator Shake()
-    {
-        Vector3 startPosition = transform.position;
-        float elapsedTime = 0f;
-
-        while (elapsedTime < _duration)
+        public void startShake()
         {
-            elapsedTime += Time.deltaTime;
-            float strenght = _curve.Evaluate(elapsedTime / _duration);
-            transform.position = startPosition + Random.insideUnitSphere * strenght;
-            yield return null;
+            StartCoroutine(Shake());
         }
 
-        transform.position = startPosition;
+        private IEnumerator Shake()
+        {
+            Vector3 startPosition = transform.position;
+            float elapsedTime = 0f;
+
+            while (elapsedTime < _duration)
+            {
+                elapsedTime += Time.deltaTime;
+                float strenght = _curve.Evaluate(elapsedTime / _duration);
+                transform.position = startPosition + Random.insideUnitSphere * strenght;
+                yield return null;
+            }
+
+            transform.position = startPosition;
+        }
     }
 }
