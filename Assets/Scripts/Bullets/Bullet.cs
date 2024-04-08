@@ -39,7 +39,7 @@ public class Bullet : MonoBehaviour
     {
         switch(_impactTag)
         {
-            case ImpactOn.Destroyable:                
+            case ImpactOn.Destroyable:
                 if (collision.CompareTag(_impactTag.ToString())){
                     StartCoroutine(DestroySelf());
                 }

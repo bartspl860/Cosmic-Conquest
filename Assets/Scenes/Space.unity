@@ -300,7 +300,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 832f664e1dd0a7d4a9d0b05653a07f7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _defaultEnemyPrefab: {fileID: 6981272335053484961, guid: d108eca8510b85142ba92fac00ce8484, type: 3}
+  _enemyShipPrefab: {fileID: 6981272335053484961, guid: d108eca8510b85142ba92fac00ce8484, type: 3}
+  _enemySnakeShipPrefab: {fileID: 6981272335053484961, guid: 609c49c0fd1af37428c4e15b220b464e, type: 3}
 --- !u!1 &384172736
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,6 +362,7 @@ GameObject:
   - component: {fileID: 458012012}
   - component: {fileID: 458012015}
   - component: {fileID: 458012014}
+  - component: {fileID: 458012016}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -501,6 +503,21 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &458012016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458012011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9832fa13ac684b9bb907d372b5524422, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spriteRenderers:
+  - {fileID: 458012012}
+  - {fileID: 990126894}
 --- !u!1 &487452745
 GameObject:
   m_ObjectHideFlags: 0
@@ -826,7 +843,7 @@ GameObject:
   - component: {fileID: 585027496}
   - component: {fileID: 585027497}
   m_Layer: 3
-  m_Name: Trail (1)
+  m_Name: TrailRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1055,7 +1072,7 @@ GameObject:
   - component: {fileID: 1030273652}
   - component: {fileID: 1030273653}
   m_Layer: 3
-  m_Name: Trail
+  m_Name: TrailLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1287,18 +1304,20 @@ MonoBehaviour:
   _playerSpeed: 8
   _playerRotationAngle: 10
   _shootingSpeed: 0.8
-  _playerHealth: 3
-  _playerMaxHealth: 5
+  _playerHealth: 10
+  _playerMaxHealth: 10
   _shield: 0
   _shieldDuration: 10
   _shieldTriggerTime: 0.2
   _playerHealthSprite: {fileID: 21300000, guid: a69d0d88e6f13434fb40def5c00435db, type: 3}
   _score: 0
+  _invincible: 0
   _bulletController: {fileID: 1572731034}
   _uiController: {fileID: 1728950223}
   _enviromentController: {fileID: 2111359462}
-  _shaking: {fileID: 519420033}
-  _fading: {fileID: 487452749}
+  _screenShaking: {fileID: 519420033}
+  _playerTwinkling: {fileID: 458012016}
+  _gameOverTMPfading: {fileID: 487452749}
   _shieldRenderer: {fileID: 1671874517}
   _shieldAnimator: {fileID: 1671874516}
 --- !u!4 &1532596627
@@ -2058,5 +2077,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _asteroids: 0
-  _defaultEnemies: 0
+  _defaultShips: 0
+  _snakeShapedDefaultShips: 0
   _entitiesController: {fileID: 1820143093}

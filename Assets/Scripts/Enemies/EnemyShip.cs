@@ -4,11 +4,10 @@ using UnityEngine;
 
 namespace Enemies
 {
-    public class EnemyShip : MonoBehaviour
+    public class EnemyShip : Entity
     {
         private BulletController _bulletController;
         private Rigidbody2D _rb2d;
-        private Player.Player _player;
         
         private void Start()
         {
@@ -31,25 +30,6 @@ namespace Enemies
             yield return new WaitForSeconds(1);
             _bulletController.GenerateEnemyBullet(transform.position);
             StartCoroutine(Shoot());
-        }
-
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.CompareTag("Player"))
-            {
-                if (!_player.IsInvincible)
-                {
-                    if (_player.IsShielded)
-                    {
-                        _player.TriggerShield();
-                    }
-                    else
-                    {
-                        _player.TakeDamage();
-                        _player.TemporaryInvincibility(2.5f);
-                    }
-                }
-            }
         }
     }
 }

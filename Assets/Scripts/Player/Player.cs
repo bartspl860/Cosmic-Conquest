@@ -60,7 +60,7 @@ namespace Player
             _playerRigidbody = _player.GetComponent<Rigidbody2D>();
             _uiController.DisplayHealthPoints(_playerHealth, _playerMaxHealth);
             _screenBounds = GetScreenBounds();
-            //StartCoroutine(IEShooting());
+            StartCoroutine(IEShooting());
         }
 
 
@@ -228,7 +228,7 @@ namespace Player
             return new Vector4(xMin, xMax, yMin, yMax);
         }
 
-        public bool IsShielded { get => _shield; }
+        public bool IsShielded  => _shield; 
         public bool IsInvincible => _invincible;
     }
 }
