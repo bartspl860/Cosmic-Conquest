@@ -31,6 +31,7 @@ namespace Enemies
         protected IEnumerator DestroySelf()
         {
             Destroy(GetComponent<Collider2D>());
+            Destroy(GetComponent<EnemyShip>());
             GetComponent<SpriteRenderer>().enabled = false;
         
             var ps = GetComponent<ParticleSystem>();

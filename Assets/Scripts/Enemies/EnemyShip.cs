@@ -24,12 +24,14 @@ namespace Enemies
             if (transform.position.x > 7)
                 _rb2d.velocity = new Vector2(-2, 0);
         }
-
+        
         private IEnumerator Shoot()
         {
-            yield return new WaitForSeconds(1);
-            _bulletController.GenerateEnemyBullet(transform.position);
-            StartCoroutine(Shoot());
+            while (true)
+            {
+                yield return new WaitForSeconds(1);
+                _bulletController.GenerateEnemyBullet(transform.position);
+            }
         }
     }
 }

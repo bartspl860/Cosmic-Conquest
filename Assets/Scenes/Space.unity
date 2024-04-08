@@ -1303,7 +1303,7 @@ MonoBehaviour:
   _player: {fileID: 458012011}
   _playerSpeed: 8
   _playerRotationAngle: 10
-  _shootingSpeed: 0.8
+  _shootingSpeed: 0.92
   _playerHealth: 10
   _playerMaxHealth: 10
   _shield: 0
