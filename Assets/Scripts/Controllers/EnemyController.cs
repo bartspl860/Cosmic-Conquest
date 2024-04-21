@@ -15,5 +15,10 @@ namespace Controllers
             var enemy = Instantiate(_enemyShipPrefab);
             enemy.transform.position = pos;        
         }
+        public void GenerateSnakeEnemy(Vector2 pos)
+        {
+            var enemy = Instantiate(_enemySnakeShipPrefab);
+            enemy.transform.position = pos;        
+        }
     }
 }

@@ -90,9 +90,13 @@ namespace Controllers
 
         private IEnumerator GenerateSnakeShips()
         {
-            while (true)
+            float pos_x = (Random.Range(0, 2) * 2 - 1) * 10;
+            float pos_y = Random.Range(1.5f, 4.5f);
+            Debug.Log((pos_x, pos_y));
+            for (var i = 0; i < 15; i++)
             {
-                yield return new WaitForSeconds(3);
+                enemyController.GenerateSnakeEnemy(new Vector2(pos_x, pos_y));
+                yield return new WaitForSeconds(0.6f);   
             }
         }
 
