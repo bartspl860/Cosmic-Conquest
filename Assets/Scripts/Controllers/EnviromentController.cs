@@ -31,7 +31,7 @@ namespace Controllers
 
         private IEnumerator MainSequence()
         {
-            _entitiesController.AddGameState(GameState.Asteroids);
+            _entitiesController.AddGameState(GameState.SnakeShips);
             while (true)
             {
                 // var seq = Random.Range(0, 2);
