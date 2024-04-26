@@ -145,7 +145,6 @@ namespace Player
             _uiController.DisplayHealthPoints(_playerHealth, _playerMaxHealth);
             if ( _playerHealth < 1 ) 
             {
-                _enviromentController.StopMainSequence();
                 _gameOverTMPfading.startFade();
                 Destroy(_player);
                 Destroy(gameObject);

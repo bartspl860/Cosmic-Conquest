@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,12 +6,12 @@ using Controllers;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace Controllers
 {
-    public enum GameState
+    public enum EntityType
     {
-        None,
         DefaultShips,
         SnakeShips,
         Asteroids
@@ -20,60 +21,8 @@ namespace Controllers
     {
         [SerializeField, Header("Dependencies")]
         private EnemyController enemyController;
-
-        [SerializeField] private StarController starController;
-        [SerializeField] private AsteroidController asteroidController;
-
-        private readonly Dictionary<GameState, IEnumerator> _gameStates = new Dictionary<GameState, IEnumerator>();
-        private List<GameState> _currentlyRunningGameStates = new List<GameState>();
-
-        public List<GameState> RunningGameStates => _currentlyRunningGameStates;
-
-        private void Start()
-        {
-            _gameStates.Add(GameState.Asteroids, GenerateAsteroid());
-            _gameStates.Add(GameState.DefaultShips, GenerateDefaultShips());
-            _gameStates.Add(GameState.SnakeShips, GenerateSnakeShips());
-        }
-
-        public void AddGameState(params GameState[] states)
-        {
-            foreach (var state in states)
-            {
-                if (!_currentlyRunningGameStates.Contains(state))
-                {
-                    _currentlyRunningGameStates.Add(state);
-                    StartCoroutine(_gameStates[state]);
-                }
-            }
-        }
-
-        public void RemoveGameState(params GameState[] states)
-        {
-            foreach (var state in states)
-            {
-                _currentlyRunningGameStates.Remove(state);
-                StopCoroutine(_gameStates[state]);
-            }
-        }
-
-        public void StopAll()
-        {
-            _currentlyRunningGameStates.Clear();
-            StopAllCoroutines();
-        }
-
-
-        public void GenerateStars()
-        {
-            for (int x = -8; x < 8; x += 2)
-            {
-                var star_possibility = Random.Range(0, 10);
-                if (star_possibility != 0)
-                    continue;
-                starController.GenerateRandomStar(new Vector2(x, 6f));
-            }
-        }
+        
+        [SerializeField] AsteroidController asteroidController;
 
         private IEnumerator GenerateDefaultShips()
         {
