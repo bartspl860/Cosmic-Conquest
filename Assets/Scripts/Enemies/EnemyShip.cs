@@ -8,13 +8,15 @@ namespace Enemies
     {
         private BulletController _bulletController;
         private Rigidbody2D _rb2d;
+        private Coroutine _shootingCoroutine;
         
         private void Start()
         {
             _player = FindFirstObjectByType<Player.Player>();
             _rb2d = GetComponent<Rigidbody2D>();
             _bulletController = FindObjectOfType<BulletController>();
-            StartCoroutine(Shoot());
+            _shootingCoroutine = StartCoroutine(Shoot());
+            _utilitiesController = FindFirstObjectByType<UtilitiesController>();
         }
 
         private void FixedUpdate()
@@ -23,6 +25,11 @@ namespace Enemies
                 _rb2d.velocity = new Vector2(2, 0);
             if (transform.position.x > 7)
                 _rb2d.velocity = new Vector2(-2, 0);
+        }
+
+        public void StopShooting()
+        {
+            StopCoroutine(_shootingCoroutine);
         }
         
         private IEnumerator Shoot()

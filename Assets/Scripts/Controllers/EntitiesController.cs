@@ -24,41 +24,46 @@ namespace Controllers
         
         [SerializeField] AsteroidController asteroidController;
 
-        private IEnumerator GenerateDefaultShips()
+        public void SpawnDefaultShips(int count, float delay)
         {
-            while (true)
+            StartCoroutine(GenerateDefaultShips(count, delay));
+        }
+        
+        private IEnumerator GenerateDefaultShips(int count, float delay)
+        {
+            for (var i = 0; i < count; i++)
             {
-                yield return new WaitForSeconds(3);
                 //returns position x 10 or -10
                 float pos_x = (Random.Range(0, 2) * 2 - 1) * 10;
                 float pos_y = Random.Range(1.5f, 4.5f);
 
                 enemyController.GenerateDefaultEnemy(new Vector2(pos_x, pos_y));
+                yield return new WaitForSeconds(delay);
             }
         }
 
-        private IEnumerator GenerateSnakeShips()
+        private IEnumerator GenerateSnakeShips(int count, float delay)
         {
-            float pos_x = (Random.Range(0, 2) * 2 - 1) * 10;
-            float pos_y = Random.Range(1.5f, 4.5f);
-            Debug.Log((pos_x, pos_y));
-            for (var i = 0; i < 15; i++)
+            for (var i = 0; i < count; i++)
             {
+                float pos_x = (Random.Range(0, 2) * 2 - 1) * 10;
+                float pos_y = Random.Range(1.5f, 4.5f);
+                
                 enemyController.GenerateSnakeEnemy(new Vector2(pos_x, pos_y));
-                yield return new WaitForSeconds(0.6f);   
+                yield return new WaitForSeconds(delay);  
             }
         }
 
-        private IEnumerator GenerateAsteroid()
+        private IEnumerator GenerateAsteroid(int count)
         {
-            while (true)
+            for (var i = 0; i < count; i++)
             {
-                yield return new WaitForSeconds(Random.Range(0.0f, 3.0f));
-
                 float pos_x = Random.Range(-8f, 8f);
                 float pos_y = 8;
 
                 asteroidController.GenerateRandomAsteroid(new Vector2(pos_x, pos_y));
+                
+                yield return new WaitForSeconds(Random.Range(0.0f, 3.0f));
             }
         }
     }

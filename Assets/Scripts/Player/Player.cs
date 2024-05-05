@@ -71,8 +71,17 @@ namespace Player
             if(_shield && !_shieldGuard)
             {
                 _shieldGuard = true;
-                StartCoroutine(IEActivateShield());            
+                ActivateShield();          
             }
+        }
+
+        private Coroutine _shieldCoroutine;
+        public void ActivateShield()
+        {
+            _shield = true;
+            if(_shieldCoroutine != null)
+                StopCoroutine(_shieldCoroutine);
+            _shieldCoroutine = StartCoroutine(IEActivateShield());
         }
 
         public void TriggerShield()

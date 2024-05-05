@@ -18,7 +18,7 @@ namespace Enemies
             _rb2d = GetComponent<Rigidbody2D>();
         }
         
-        public void FixedUpdate()
+        private void FixedUpdate()
         {
             if (transform.position.x < -7)
                 _horizontalSpeed = SPEED;

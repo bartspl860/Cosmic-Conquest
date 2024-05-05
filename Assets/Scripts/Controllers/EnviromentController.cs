@@ -13,6 +13,16 @@ namespace Controllers
     {
         [SerializeField, Header("Dependencies")]
         private EntitiesController _entitiesController;
-        
+
+
+        private void Start()
+        {
+            Spawn10DefaultEnemies();
+        }
+
+        private void Spawn10DefaultEnemies()
+        {
+            _entitiesController.SpawnDefaultShips(10, 2f);
+        }
     }
 }
