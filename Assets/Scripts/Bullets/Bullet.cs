@@ -34,6 +34,10 @@ public class Bullet : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        if(position.x < Bounds.x - 10 || position.x > Bounds.y + 10)
+        {
+            Destroy(gameObject);
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

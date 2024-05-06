@@ -18,6 +18,10 @@ namespace Player
         private float _playerRotationAngle;
         [SerializeField]
         private float _shootingSpeed;
+        [SerializeField] 
+        private float _maxShootingAngle;
+        [SerializeField] 
+        private int _missilesCount;
         [SerializeField]
         private int _playerHealth;
         [SerializeField]
@@ -186,11 +190,33 @@ namespace Player
             }
         }
 
-        private void PlayerShoot()
+        private void PlayerShoot(int missiles)
         {
             var pos = _player.transform.position;
             pos.y += 0.3f;
-            _bulletController.GeneratePlayerBullet(pos);
+
+            var shootingPie = 2f * _maxShootingAngle;
+            var shootingPiePart = shootingPie / missiles;
+            var angleOffset = 0f;
+            
+            // Adjust for odd number of missiles
+            if (missiles % 2 != 0)
+            {
+                angleOffset = shootingPiePart / 2;
+            }
+
+            var angle = -_maxShootingAngle + angleOffset;
+            
+            if (missiles % 2 == 0)
+            {
+                angle += shootingPiePart / 2; // Adjust starting angle for even numbers
+            }
+            
+            for (var i = 0; i < missiles; i++)
+            {
+                _bulletController.GeneratePlayerBullet(pos, Quaternion.Euler(0, 0, angle));
+                angle += shootingPiePart;
+            }
         }
 
         IEnumerator IEShooting()
@@ -198,7 +224,7 @@ namespace Player
             while (true)
             {
                 yield return new WaitForSeconds(_shootingSpeed);
-                PlayerShoot();
+                PlayerShoot(_missilesCount);
             }
         }
 

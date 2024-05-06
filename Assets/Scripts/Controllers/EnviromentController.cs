@@ -17,7 +17,7 @@ namespace Controllers
 
         private void Start()
         {
-            Spawn10DefaultEnemies();
+            // Spawn10DefaultEnemies();
         }
 
         private void Spawn10DefaultEnemies()
