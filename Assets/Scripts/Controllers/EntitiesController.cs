@@ -28,6 +28,10 @@ namespace Controllers
         {
             StartCoroutine(GenerateDefaultShips(count, delay));
         }
+        public void SpawnAsteroids(int count)
+        {
+            StartCoroutine(GenerateAsteroid(count));
+        }
         
         private IEnumerator GenerateDefaultShips(int count, float delay)
         {

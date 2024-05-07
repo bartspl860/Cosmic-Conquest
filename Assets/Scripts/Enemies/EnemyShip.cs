@@ -17,6 +17,8 @@ namespace Enemies
             _bulletController = FindObjectOfType<BulletController>();
             _shootingCoroutine = StartCoroutine(Shoot());
             _utilitiesController = FindFirstObjectByType<UtilitiesController>();
+            _utilitiesSpawnFunctions.Add(this._utilitiesController.SpawnBronzeShield);
+            _utilitiesSpawnFunctions.Add(this._utilitiesController.SpawnBronzeAmmo);
         }
 
         private void FixedUpdate()

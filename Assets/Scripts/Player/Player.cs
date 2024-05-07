@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Controllers;
 using Effects;
@@ -80,6 +81,13 @@ namespace Player
         }
 
         private Coroutine _shieldCoroutine;
+
+        public void AddMissilesCount(int count)
+        {
+            if(_missilesCount + count < 1 || _missilesCount + count > 15)
+                return;
+            this._missilesCount += count;
+        }
         public void ActivateShield()
         {
             _shield = true;
@@ -194,6 +202,8 @@ namespace Player
         {
             var pos = _player.transform.position;
             pos.y += 0.3f;
+
+            _maxShootingAngle = Math.Clamp(_missilesCount * 10, 0, 45);
 
             var shootingPie = 2f * _maxShootingAngle;
             var shootingPiePart = shootingPie / missiles;

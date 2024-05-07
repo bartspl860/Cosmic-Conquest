@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Audio;
 using Controllers;
 using UnityEngine;
@@ -32,16 +33,19 @@ namespace Enemies
             }
         }
 
+        protected List<Action<Vector2>> _utilitiesSpawnFunctions = new List<Action<Vector2>>();
         protected void SpawnRandomUtility()
         {
-            var chance = Random.Range(0f, 1f) <= 0.6f;
-            if (chance)
+            for (var i = 0; i < _utilitiesSpawnFunctions.Count; i++)
             {
-                Debug.Log(_utilitiesController);
-                _utilitiesController.SpawnBronzeShield(transform.position);
+                if (Random.Range(0f, 1f) <= 0.1f)
+                {
+                    _utilitiesSpawnFunctions[i](transform.position);
+                    break;
+                }
             }
+            
         }
-        
         protected IEnumerator DestroySelf()
         {
             Destroy(GetComponent<Collider2D>());

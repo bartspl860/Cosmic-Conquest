@@ -17,12 +17,18 @@ namespace Controllers
 
         private void Start()
         {
-            // Spawn10DefaultEnemies();
+            SpawnDefaultEnemies();
+            // Spawn30Asteroids();
         }
 
-        private void Spawn10DefaultEnemies()
+        private void SpawnDefaultEnemies()
         {
-            _entitiesController.SpawnDefaultShips(10, 2f);
+            _entitiesController.SpawnDefaultShips(80, 2f);
+        }
+        
+        private void Spawn30Asteroids()
+        {
+            _entitiesController.SpawnAsteroids(30);
         }
     }
 }
