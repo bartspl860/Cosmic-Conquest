@@ -39,7 +39,9 @@ namespace Enemies
             while (true)
             {
                 yield return new WaitForSeconds(1);
-                _bulletController.GenerateEnemyBullet(transform.position);
+                var rotation = transform.rotation.eulerAngles;
+                rotation.z += 180f;
+                _bulletController.GenerateEnemyBullet(transform.position, Quaternion.Euler(rotation));
             }
         }
     }

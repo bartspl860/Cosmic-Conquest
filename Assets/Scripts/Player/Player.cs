@@ -20,8 +20,6 @@ namespace Player
         [SerializeField]
         private float _shootingSpeed;
         [SerializeField] 
-        private float _maxShootingAngle;
-        [SerializeField] 
         private int _missilesCount;
         [SerializeField]
         private int _playerHealth;
@@ -67,7 +65,6 @@ namespace Player
             _screenBounds = GetScreenBounds();
             StartCoroutine(IEShooting());
         }
-
 
         private bool _shieldGuard = false;
         private void Update()
@@ -203,9 +200,9 @@ namespace Player
             var pos = _player.transform.position;
             pos.y += 0.3f;
 
-            _maxShootingAngle = Math.Clamp(_missilesCount * 10, 0, 45);
+            var maxShootingAngle = Math.Clamp(_missilesCount * 10, 0, 45);
 
-            var shootingPie = 2f * _maxShootingAngle;
+            var shootingPie = 2f * maxShootingAngle;
             var shootingPiePart = shootingPie / missiles;
             var angleOffset = 0f;
             
@@ -215,7 +212,7 @@ namespace Player
                 angleOffset = shootingPiePart / 2;
             }
 
-            var angle = -_maxShootingAngle + angleOffset;
+            var angle = -maxShootingAngle + angleOffset;
             
             if (missiles % 2 == 0)
             {

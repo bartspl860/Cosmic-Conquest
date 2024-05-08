@@ -17,7 +17,7 @@ namespace Controllers
 
         private void Start()
         {
-            SpawnDefaultEnemies();
+            // SpawnDefaultEnemies();
             // Spawn30Asteroids();
         }
 

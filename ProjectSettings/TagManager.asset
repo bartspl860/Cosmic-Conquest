@@ -15,7 +15,7 @@ TagManager:
   - UI
   - Background
   - Enemies
-  - 
+  - Bullets
   - 
   - 
   - 
@@ -45,6 +45,9 @@ TagManager:
     locked: 0
   - name: Enemies
     uniqueID: 812923859
+    locked: 0
+  - name: Bullets
+    uniqueID: 2375671153
     locked: 0
   - name: Default
     uniqueID: 0
