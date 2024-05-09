@@ -27,6 +27,12 @@ namespace Enemies
 
         [SerializeField] 
         private TextMeshPro _hpText;
+
+        [SerializeField] 
+        private GameObject _damages;
+
+        [SerializeField] 
+        private ParticleSystem _expolosionParticleSystem;
         
         private Coroutine _shootingCoroutine;
 
@@ -49,14 +55,20 @@ namespace Enemies
         private void TakeDamage()
         {
             _health--;
-            if (_health <= 0)
+            
+            if (_health > 0)
+            {
+                _hitEffect.StartEffect();
+                _hpText.text = $"HP \n {_health}";   
+            }
+            else if (_health == 0)
             {
                 StopCoroutine(_shootingCoroutine);
                 _hitEffect.MarkAsDestroyed();
-                return;
+                _damages.SetActive(true);
+                _expolosionParticleSystem.Play();
             }
-            _hitEffect.StartEffect();
-            _hpText.text = $"HP \n {_health}";
+            
         }
 
         private IEnumerator Shoot()
