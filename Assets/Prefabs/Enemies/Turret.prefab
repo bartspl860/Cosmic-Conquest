@@ -437,7 +437,6 @@ GameObject:
   - component: {fileID: 4501246188327142954}
   - component: {fileID: 6426337621070061275}
   - component: {fileID: 3836224216746701753}
-  - component: {fileID: 2681742368093065301}
   - component: {fileID: 6182878748597318850}
   - component: {fileID: 3171487262837576359}
   - component: {fileID: 2758034025475241390}
@@ -533,59 +532,16 @@ MonoBehaviour:
   _shootingDelay: 1.3
   _shootingPoint: {fileID: 3982399586669425773}
   _health: 10
-  _hitEffect: {fileID: 2681742368093065301}
+  _hitEffect:
+    _duration: 0.3
+    _spriteRenderers:
+    - {fileID: 6426337621070061275}
+    - {fileID: 1298834702519088058}
+    _fromColor: {r: 1, g: 1, b: 1, a: 1}
+    _toColor: {r: 1, g: 0, b: 0, a: 1}
   _hpText: {fileID: 6018914826804711446}
   _damages: {fileID: 5365579686957501988}
   _expolosionParticleSystem: {fileID: 2758034025475241390}
---- !u!114 &2681742368093065301
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5057591597540154775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a91d3fe35884b0d89ac15ff0dacbf74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.5
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _duration: 0.3
-  _spriteRenderers:
-  - {fileID: 6426337621070061275}
-  - {fileID: 1298834702519088058}
 --- !u!70 &6182878748597318850
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

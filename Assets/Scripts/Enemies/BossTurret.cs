@@ -3,6 +3,7 @@ using System.Collections;
 using Controllers;
 using Effects;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Enemies
@@ -58,13 +59,13 @@ namespace Enemies
             
             if (_health > 0)
             {
-                _hitEffect.StartEffect();
+                StartCoroutine(_hitEffect.StartEffect());
                 _hpText.text = $"HP \n {_health}";   
             }
             else if (_health == 0)
             {
                 StopCoroutine(_shootingCoroutine);
-                _hitEffect.MarkAsDestroyed();
+                _hitEffect.SetLerp(0.7f);
                 _damages.SetActive(true);
                 _expolosionParticleSystem.Play();
             }
@@ -84,6 +85,11 @@ namespace Enemies
         
         private void Rotate()
         {
+            if (_playerGameObject.IsUnityNull())
+            {
+                StopCoroutine(_shootingCoroutine);
+                return;    
+            }
             var target = _playerGameObject.transform.position;
             Vector3 turretPos = transform.position;
             Vector3 distance = Vector2.zero;

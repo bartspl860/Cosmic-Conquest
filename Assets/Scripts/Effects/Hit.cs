@@ -1,49 +1,53 @@
 using System;
 using System.Collections;
+using Unity.Collections;
 using UnityEngine;
 
 namespace Effects
 {
-    public class Hit : MonoBehaviour
+    [Serializable]
+    public class Hit
     {
-        [SerializeField] 
-        private AnimationCurve _animationCurve;
-
-        [SerializeField] 
+        [SerializeField]
         private float _duration;
-
         [SerializeField]
         private SpriteRenderer[] _spriteRenderers;
-        
+        [SerializeField]
+        private Color _fromColor;
+        [SerializeField]
+        private Color _toColor;
 
-        public void StartEffect()
-        {
-            StartCoroutine(IEStartEffect());
-        }
-
-        public void MarkAsDestroyed()
-        {
-            foreach (var spriteRenderer in _spriteRenderers)
-            {
-                spriteRenderer.color = Color.Lerp(Color.white, Color.red, 0.7f);
-            }
-        }
-
-        IEnumerator IEStartEffect()
+        public IEnumerator StartEffect()
         {
             float elapsedTime = 0f;
 
             while (elapsedTime < _duration)
             {
                 elapsedTime += Time.deltaTime;
-                float strenght = _animationCurve.Evaluate(elapsedTime / _duration);
+                double strenght = Math.Sin(elapsedTime / _duration * Math.PI);
+                
+                yield return null;
 
                 foreach (var _spriteRenderer in _spriteRenderers)
                 {
-                    _spriteRenderer.color = Color.Lerp(Color.white, Color.red, strenght);
+                    _spriteRenderer.color = Color.Lerp(_fromColor, _toColor, (float)strenght);
                 }
-                
-                yield return null;
+            }
+        }
+
+        public void SetLerp(float lerp)
+        {
+            foreach (var spriteRenderer in _spriteRenderers)
+            {
+                spriteRenderer.color = Color.Lerp(_fromColor, _toColor, lerp);
+            }
+        }
+
+        public void setVisible(bool isVisible)
+        {
+            foreach (var spriteRenderer in _spriteRenderers)
+            {
+                spriteRenderer.enabled = isVisible;
             }
         }
     }

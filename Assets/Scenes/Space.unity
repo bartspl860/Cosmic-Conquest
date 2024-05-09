@@ -312,6 +312,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss
       objectReference: {fileID: 0}
+    - target: {fileID: 8284646588102347228, guid: 1a619aca4633223f19fcb7039675c889, type: 3}
+      propertyPath: _hitEffect._toColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8284646588102347228, guid: 1a619aca4633223f19fcb7039675c889, type: 3}
+      propertyPath: _hitEffect._fromColor.a
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -5,6 +5,7 @@ using Effects;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Enemies
@@ -27,9 +28,14 @@ namespace Enemies
         private BulletController _bulletController;
 
         [SerializeField] 
-        private Hit _hitEffect;
+        private Hit _bossHitEffect;
+
+        [SerializeField] 
+        private Hit _shieldHitEffect;
 
         private Phase _phase = Phase.Turrets;
+
+        private bool _shielded = true;
 
         private void Start()
         {
@@ -60,13 +66,22 @@ namespace Enemies
         {
             if (other.CompareTag("PlayerBullet"))
             {
-                _hitEffect.StartEffect();
+                if (_shielded)
+                {
+                    StartCoroutine(_shieldHitEffect.StartEffect());
+                }
+                else
+                {
+                    StartCoroutine(_bossHitEffect.StartEffect());
+                }
+                
             }
         }
 
         private void Update()
         {
             Move();
+            _shieldHitEffect.setVisible(_shielded);
         }
     }
 }
