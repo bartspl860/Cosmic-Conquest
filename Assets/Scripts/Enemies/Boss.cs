@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Controllers;
 using Effects;
 using Unity.VisualScripting;
@@ -12,7 +13,7 @@ namespace Enemies
 {
     public class Boss : MonoBehaviour
     {
-        public enum Phase { Turrets, Minigun }
+        public enum Phase { Turrets, Laser }
         
         [SerializeField]
         private int _health;
@@ -37,6 +38,12 @@ namespace Enemies
 
         private bool _shielded = true;
 
+        [SerializeField]
+        private BossTurret[] _turrets;
+
+        [SerializeField] 
+        private SpriteRenderer _laser;
+
         private void Start()
         {
             _bossRb2d = GetComponent<Rigidbody2D>();
@@ -54,7 +61,7 @@ namespace Enemies
             }
             
             var dir = _flightDestination - (Vector2)transform.position;
-            _bossRb2d.velocity = dir.normalized * _speed;
+            _bossRb2d.velocity = dir.normalized * (_phase == Phase.Turrets ? _speed : _speed * 1.3f);
 
             if (Vector2.Distance(transform.position, _flightDestination) < 1f)
             {
@@ -78,10 +85,45 @@ namespace Enemies
             }
         }
 
+        private IEnumerator Shoot()
+        {
+            while (true)
+            {
+                while (_laser.size.y < 30)
+                {
+                    _laser.size = new Vector2(_laser.size.x, _laser.size.y + 0.2f);
+                    yield return null;
+                }
+
+                yield return new WaitForSeconds(2);
+                _laser.size = new Vector2(_laser.size.x, 0);
+
+                yield return new WaitForSeconds(4);
+            }
+        }
+
+        private Coroutine _shooting;
         private void Update()
         {
             Move();
             _shieldHitEffect.setVisible(_shielded);
+
+            bool allTurretsDestroyed = true;
+            foreach (var turret in _turrets)
+            {
+                if (turret.GetHealth() > 0)
+                    allTurretsDestroyed = false;
+            }
+
+            if (allTurretsDestroyed)
+            {
+                _phase = Phase.Laser;
+                _shielded = false;
+                if (_shooting == null)
+                {
+                    _shooting = StartCoroutine(Shoot());
+                }
+            }
         }
     }
 }

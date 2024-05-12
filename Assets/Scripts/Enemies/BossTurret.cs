@@ -53,6 +53,11 @@ namespace Enemies
             }
         }
 
+        public int GetHealth()
+        {
+            return _health;
+        }
+        
         private void TakeDamage()
         {
             _health--;
