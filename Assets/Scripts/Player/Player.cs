@@ -175,6 +175,11 @@ namespace Player
             _score += score;
             _uiController.DisplayScore(_score);
         }
+        
+        public int GetScore()
+        {
+            return _score;
+        }
 
         private void ForcePlayerInBounds(Transform t)
         {

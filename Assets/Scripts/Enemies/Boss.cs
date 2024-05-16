@@ -55,7 +55,6 @@ namespace Enemies
             _bulletController = FindFirstObjectByType<BulletController>();
             _playerGameObject = GameObject.FindWithTag("Player");
             _maxHealth = _health;
-            _healthbar.SetValue(0f);
         }
 
         private void Move()
@@ -103,6 +102,7 @@ namespace Enemies
         {
             _particleSystem.Play();
             yield return new WaitForSeconds(_particleSystem.main.duration);
+            FindFirstObjectByType<EnviromentController>().EntityDestroyed();
             Destroy(gameObject);
         }
 
@@ -146,6 +146,7 @@ namespace Enemies
                     _phase = Phase.Laser;
                     _shielded = false;
                     _healthbar.SetValue(1f);
+                    _healthbar.SetVisible(true);
                     _shooting = StartCoroutine(Shoot());
                 }
             }

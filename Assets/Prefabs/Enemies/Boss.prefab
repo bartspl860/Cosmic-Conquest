@@ -426,7 +426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8375c8796f6c487e88f9213e09cbbf00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 10
+  _health: 50
   _speed: 2
   _bossHitEffect:
     _duration: 0.3
@@ -5944,6 +5944,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Healthbar
       objectReference: {fileID: 0}
+    - target: {fileID: 538916124598772998, guid: 679c270ed1e445467869d825f7ea732e, type: 3}
+      propertyPath: _width
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 847526900440433998, guid: 679c270ed1e445467869d825f7ea732e, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -5991,6 +5995,10 @@ PrefabInstance:
     - target: {fileID: 4855950766591543501, guid: 679c270ed1e445467869d825f7ea732e, type: 3}
       propertyPath: m_Size.x
       value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4855950766591543501, guid: 679c270ed1e445467869d825f7ea732e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

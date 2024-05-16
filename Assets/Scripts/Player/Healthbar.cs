@@ -21,6 +21,11 @@ public class Healthbar : MonoBehaviour
         _maxWidth = _width;
     }
 
+    public void SetVisible(bool isVisible)
+    {
+        _spriteRenderer.enabled = isVisible;
+    }
+
     public void SetValue(float value)
     {
         value = Math.Clamp(value, 0f, 1f);
@@ -31,6 +36,6 @@ public class Healthbar : MonoBehaviour
 
     public void Reset()
     {
-        SetValue(1f);
+        SetValue(_maxWidth);
     }
 }

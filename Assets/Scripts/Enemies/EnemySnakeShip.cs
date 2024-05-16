@@ -1,33 +1,37 @@
 using System;
+using Controllers;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Enemies
 {
     public class EnemySnakeShip : Entity
     {
         private Rigidbody2D _rb2d;
-        private const float SPEED = 2;
-        private float _verticalSpeed = SPEED;
-        private float _horizontalSpeed = SPEED;
+        [SerializeField]
+        private float _speed = 2;
 
-        
+        private float _verticalSpeed;
+        private float _horizontalSpeed;
         
         public void Start()
         {
             _player = FindFirstObjectByType<Player.Player>();
             _rb2d = GetComponent<Rigidbody2D>();
+            _verticalSpeed = _speed;
+            _horizontalSpeed = _speed;
         }
         
         private void FixedUpdate()
         {
             if (transform.position.x < -7)
-                _horizontalSpeed = SPEED;
+                _horizontalSpeed = _speed;
             else if (transform.position.x > 7)
-                _horizontalSpeed = -SPEED;
+                _horizontalSpeed = -_speed;
             if (transform.position.y < -5)
-                _verticalSpeed = SPEED;
+                _verticalSpeed = _speed;
             else if (transform.position.y > 5)
-                _verticalSpeed = -SPEED;
+                _verticalSpeed = -_speed;
             _rb2d.velocity = new Vector2(_horizontalSpeed, _verticalSpeed);
         }
     }

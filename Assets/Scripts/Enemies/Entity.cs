@@ -49,7 +49,8 @@ namespace Enemies
         protected IEnumerator DestroySelf()
         {
             Destroy(GetComponent<Collider2D>());
-            GetComponent<EnemyShip>().StopShooting();
+            if(TryGetComponent<EnemyShip>(out EnemyShip ship))
+                ship.StopShooting();
             GetComponent<SpriteRenderer>().enabled = false;
             
             var ps = GetComponent<ParticleSystem>();
@@ -58,9 +59,10 @@ namespace Enemies
             AudioManager.Instance.PlaySound("asteroid_hit");
             
             SpawnRandomUtility();
+            FindFirstObjectByType<EnviromentController>().EntityDestroyed();
             
             yield return new WaitForSeconds(ps.main.duration);
-
+            
             Destroy(gameObject);
         }
     }

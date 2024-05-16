@@ -2,6 +2,8 @@ using System;
 using Player;
 using System.Collections;
 using Audio;
+using Controllers;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
@@ -28,6 +30,8 @@ namespace Asteroids
         private bool _bigAsteroid;
 
         private float _rotation = 0f;
+
+        private EnviromentController _enviromentController;
         private void Start()
         {
             var rb2d = GetComponent<Rigidbody2D>();
@@ -40,6 +44,9 @@ namespace Asteroids
                 _bigAsteroid = true;
             this.player = FindFirstObjectByType<Player.Player>();
             Assert.IsTrue(this.player != null);
+            _enviromentController = FindFirstObjectByType<EnviromentController>();
+            _enviromentController.EntityCounter++;
+            Debug.Log($"New Enemy + 1: {_enviromentController.EntityCounter}");
         }
 
         private void OnTriggerStay2D(Collider2D collision)
@@ -134,7 +141,8 @@ namespace Asteroids
                 AudioManager.Instance.PlaySound("asteroid_destroy");
         
             yield return new WaitForSeconds(ps.main.duration);
-
+            
+            FindFirstObjectByType<EnviromentController>().EntityDestroyed();
             Destroy(gameObject);
         }
 
@@ -143,7 +151,10 @@ namespace Asteroids
             transform.Rotate(new Vector3(0f, 0f, _rotation));
             _rotation += 0.001f;
             if (transform.position.y < -10)
+            {
+                FindFirstObjectByType<EnviromentController>().EntityDestroyed();
                 Destroy(gameObject);
+            }
         }
 
         public int GetPoints()

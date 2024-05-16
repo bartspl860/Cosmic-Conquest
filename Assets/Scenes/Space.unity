@@ -302,6 +302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyShipPrefab: {fileID: 6981272335053484961, guid: d108eca8510b85142ba92fac00ce8484, type: 3}
   _enemySnakeShipPrefab: {fileID: 6981272335053484961, guid: 609c49c0fd1af37428c4e15b220b464e, type: 3}
+  _bossPrefab: {fileID: 3387923133452256775, guid: 1a619aca4633223f19fcb7039675c889, type: 3}
 --- !u!1 &458012011
 GameObject:
   m_ObjectHideFlags: 0
