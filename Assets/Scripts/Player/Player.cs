@@ -161,6 +161,7 @@ namespace Player
             _screenShaking.startShake();
             _playerHealth--;
             _uiController.DisplayHealthPoints(_playerHealth, _playerMaxHealth);
+            TemporaryInvincibility(1);
             if ( _playerHealth < 1 ) 
             {
                 _gameOverTMPfading.startFade();

@@ -23,11 +23,13 @@ namespace Enemies
         [SerializeField] 
         private int _health;
 
+        private int _maxHealth;
+
         [SerializeField] 
         private Hit _hitEffect;
 
         [SerializeField] 
-        private TextMeshPro _hpText;
+        private Healthbar _healthbar;
 
         [SerializeField] 
         private GameObject _damages;
@@ -42,7 +44,7 @@ namespace Enemies
             _shootingCoroutine = StartCoroutine(Shoot());
             _bulletController = FindFirstObjectByType<BulletController>();
             _playerGameObject = GameObject.FindGameObjectWithTag("Player");
-            _hpText.text = $"HP \n {_health}";
+            _maxHealth = _health;
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -65,12 +67,13 @@ namespace Enemies
             if (_health > 0)
             {
                 StartCoroutine(_hitEffect.StartEffect());
-                _hpText.text = $"HP \n {_health}";   
+                _healthbar.SetValue(_health / (float)_maxHealth);
             }
             else if (_health == 0)
             {
                 StopCoroutine(_shootingCoroutine);
                 _hitEffect.SetLerp(0.7f);
+                _healthbar.SetValue(0f);
                 _damages.SetActive(true);
                 _expolosionParticleSystem.Play();
             }

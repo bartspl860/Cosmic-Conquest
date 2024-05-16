@@ -18,6 +18,8 @@ namespace Enemies
         [SerializeField]
         private int _health;
 
+        private int _maxHealth;
+
         [SerializeField] 
         private float _speed;
         
@@ -44,11 +46,16 @@ namespace Enemies
         [SerializeField] 
         private SpriteRenderer _laser;
 
+        [SerializeField] private Healthbar _healthbar;
+        [SerializeField] private ParticleSystem _particleSystem;
+
         private void Start()
         {
             _bossRb2d = GetComponent<Rigidbody2D>();
             _bulletController = FindFirstObjectByType<BulletController>();
             _playerGameObject = GameObject.FindWithTag("Player");
+            _maxHealth = _health;
+            _healthbar.SetValue(0f);
         }
 
         private void Move()
@@ -80,9 +87,23 @@ namespace Enemies
                 else
                 {
                     StartCoroutine(_bossHitEffect.StartEffect());
+                    _health--;
+                    _healthbar.SetValue(_health / (float)_maxHealth);
+
+                    if (_health == 0)
+                    {
+                        StartCoroutine(DestroySelf());
+                    }
                 }
                 
             }
+        }
+
+        private IEnumerator DestroySelf()
+        {
+            _particleSystem.Play();
+            yield return new WaitForSeconds(_particleSystem.main.duration);
+            Destroy(gameObject);
         }
 
         private IEnumerator Shoot()
@@ -105,6 +126,9 @@ namespace Enemies
         private Coroutine _shooting;
         private void Update()
         {
+            if (_health <= 0)
+                return;
+            
             Move();
             _shieldHitEffect.setVisible(_shielded);
 
@@ -117,10 +141,11 @@ namespace Enemies
 
             if (allTurretsDestroyed)
             {
-                _phase = Phase.Laser;
-                _shielded = false;
                 if (_shooting == null)
                 {
+                    _phase = Phase.Laser;
+                    _shielded = false;
+                    _healthbar.SetValue(1f);
                     _shooting = StartCoroutine(Shoot());
                 }
             }
