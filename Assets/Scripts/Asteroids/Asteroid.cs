@@ -24,12 +24,10 @@ namespace Asteroids
         private GameObject _smallBrownAsteroidPrefab;
         [SerializeField]
         private GameObject _smallSilverAsteroidPrefab;
-
         private Player.Player player;
-
         private bool _bigAsteroid;
-
         private float _rotation = 0f;
+        private bool _destroyed = false;
 
         private EnviromentController _enviromentController;
         private void Start()
@@ -58,20 +56,27 @@ namespace Asteroids
                     if (player.IsShielded)
                     {
                         player.TriggerShield();
-                        StartCoroutine(DestroySelf(collisionWithPlayer: true));
                     }
                     else
                     {
-                        StartCoroutine(DestroySelf(collisionWithPlayer: true));
+                        
                         player.TakeDamage();
                         player.TemporaryInvincibility(2.5f);
                     }
+
+                    _destroyed = true;
+                    StartCoroutine(DestroySelf(collisionWithPlayer: true));
                 }
             }
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
+            if(_destroyed)
+                return;
+            //asteroid checks if it collides with enemies and ignores it
+            if(collision.gameObject.layer == LayerMask.NameToLayer("Enemies"))
+                return;
             //asteroid collides with player and makes particle effect
             if (collision.CompareTag("Player"))
             {
@@ -87,11 +92,6 @@ namespace Asteroids
                     player.TakeDamage();
                     player.TemporaryInvincibility(2.5f);
                 }
-            }
-            //asteroid checks if it collides with enemies and ignores it
-            else if(collision.gameObject.layer == LayerMask.NameToLayer("Enemies"))
-            {
-                return;
             }
             //asteroid collides with bullet, takes damage and destroys itself when lives are 0
             else
@@ -140,9 +140,10 @@ namespace Asteroids
             else
                 AudioManager.Instance.PlaySound("asteroid_destroy");
         
+            FindFirstObjectByType<EnviromentController>().EntityDestroyed();
+            
             yield return new WaitForSeconds(ps.main.duration);
             
-            FindFirstObjectByType<EnviromentController>().EntityDestroyed();
             Destroy(gameObject);
         }
 

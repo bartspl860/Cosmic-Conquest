@@ -35,10 +35,10 @@ namespace Controllers
             _generating = true;
             StartCoroutine(GenerateDefaultShips(count, delay));
         }
-        public void SpawnAsteroids(int count)
+        public void SpawnAsteroids(int count, float delay)
         {
             _generating = true;
-            StartCoroutine(GenerateAsteroid(count));
+            StartCoroutine(GenerateAsteroid(count, delay));
         }
         
         public void SpawnSnakeShips(int count, float delay)
@@ -85,7 +85,7 @@ namespace Controllers
             _generating = false;
         }
 
-        private IEnumerator GenerateAsteroid(int count)
+        private IEnumerator GenerateAsteroid(int count, float delay)
         {
             for (var i = 0; i < count; i++)
             {
@@ -94,7 +94,7 @@ namespace Controllers
 
                 asteroidController.GenerateRandomAsteroid(new Vector2(pos_x, pos_y));
                 
-                yield return new WaitForSeconds(Random.Range(0.0f, 3.0f));
+                yield return new WaitForSeconds(Random.Range(0.0f, delay));
             }
             _generating = false;
         }

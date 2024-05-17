@@ -5,7 +5,7 @@ namespace Utilities
 {
     public class Utility : MonoBehaviour
     {
-        public enum Type { BrShield, BrAmmo}
+        public enum Type { BrShield, BrAmmo, Health }
 
         [SerializeField] private Type _type;
         private void Update()
@@ -31,6 +31,9 @@ namespace Utilities
                         break;
                     case Type.BrAmmo:
                         player.AddMissilesCount(1);
+                        break;
+                    case Type.Health:
+                        player.AddHealth(1);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

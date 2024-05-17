@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using Controllers;
 using UnityEngine;
 
@@ -19,6 +21,7 @@ namespace Enemies
             _utilitiesController = FindFirstObjectByType<UtilitiesController>();
             _utilitiesSpawnFunctions.Add(this._utilitiesController.SpawnBronzeShield);
             _utilitiesSpawnFunctions.Add(this._utilitiesController.SpawnBronzeAmmo);
+            _utilitiesSpawnFunctions.Add(this._utilitiesController.SpawnHealth);
         }
 
         private void FixedUpdate()

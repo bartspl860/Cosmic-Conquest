@@ -81,10 +81,17 @@ namespace Player
 
         public void AddMissilesCount(int count)
         {
-            if(_missilesCount + count < 1 || _missilesCount + count > 15)
+            if(_missilesCount + count < 1 || _missilesCount + count > 5)
                 return;
             this._missilesCount += count;
         }
+
+        public void AddHealth(int count)
+        {
+            this._playerHealth = Math.Clamp(_playerHealth + count, 1, 10);
+            _uiController.DisplayHealthPoints(_playerHealth, _playerMaxHealth);
+        }
+        
         public void ActivateShield()
         {
             _shield = true;
@@ -107,7 +114,6 @@ namespace Player
             while (elapsedTime < halfTriggerTime)
             {
                 elapsedTime += Time.deltaTime;
-
                 _shieldRenderer.color = Color.Lerp(Color.white, new Color(1.0f, 165/255.0f, 0.0f, 1.0f), elapsedTime / halfTriggerTime);
                 yield return null;
             }
@@ -117,7 +123,6 @@ namespace Player
             while (elapsedTime < halfTriggerTime)
             {
                 elapsedTime += Time.deltaTime;
-
                 _shieldRenderer.color = Color.Lerp(new Color(1.0f, 165 / 255.0f, 0.0f, 1.0f), Color.white, elapsedTime / halfTriggerTime);
                 yield return null;
             }        
@@ -156,10 +161,12 @@ namespace Player
         }
         public void TakeDamage()
         {   
-            if(_invincible)
+            if(_invincible || _shield)
                 return;
             _screenShaking.startShake();
             _playerHealth--;
+            if(_missilesCount > 1)
+                _missilesCount--;
             _uiController.DisplayHealthPoints(_playerHealth, _playerMaxHealth);
             TemporaryInvincibility(1);
             if ( _playerHealth < 1 ) 

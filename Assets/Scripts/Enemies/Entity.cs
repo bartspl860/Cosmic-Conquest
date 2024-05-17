@@ -12,9 +12,11 @@ namespace Enemies
     {
         protected Player.Player _player;
         protected UtilitiesController _utilitiesController;
+        protected bool _destroyed = false;
 
         protected void OnTriggerEnter2D(Collider2D collision)
         {
+            if (_destroyed) return;
             if (collision.CompareTag("Player") && !_player.IsInvincible)
             {
                 if (_player.IsShielded)
@@ -29,6 +31,8 @@ namespace Enemies
             }
             else if (collision.CompareTag("PlayerBullet"))
             {
+                _player.AddScore(100);
+                _destroyed = true;
                 StartCoroutine(DestroySelf());
             }
         }
@@ -36,9 +40,10 @@ namespace Enemies
         protected List<Action<Vector2>> _utilitiesSpawnFunctions = new List<Action<Vector2>>();
         protected void SpawnRandomUtility()
         {
+            Debug.LogWarning("RAND");
             for (var i = 0; i < _utilitiesSpawnFunctions.Count; i++)
             {
-                if (Random.Range(0f, 1f) <= 0.1f)
+                if (Random.Range(0f, 1f) <= 0.15f)
                 {
                     _utilitiesSpawnFunctions[i](transform.position);
                     break;

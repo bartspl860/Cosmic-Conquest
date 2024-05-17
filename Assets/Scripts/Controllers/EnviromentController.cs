@@ -36,7 +36,10 @@ namespace Controllers
         public void EntityDestroyed()
         {
             EntityCounter--;
-            Debug.Log($"Destroyed enemy - 1: {EntityCounter}");
+            if(EntityCounter >= 0)
+                Debug.Log($"Destroyed enemy - 1: {EntityCounter}");
+            else
+                Debug.LogError($"Destroyed enemy - 1: {EntityCounter}");
             if (EntityCounter < 1)
                 _allowSpawning = true;
         }
@@ -59,7 +62,7 @@ namespace Controllers
             switch (enemyType)
             {
                 case EnemyType.Asteroid: 
-                    _entitiesController.SpawnAsteroids(Random.Range(10, 30));
+                    _entitiesController.SpawnAsteroids(Random.Range(10, 30), 2f);
                     break;
                 case EnemyType.Ship: 
                     _entitiesController.SpawnDefaultShips(Random.Range(5, 10), 1f);
@@ -69,16 +72,6 @@ namespace Controllers
                     break;
             }
             _allowSpawning = false;
-        }
-
-        private void SpawnDefaultEnemies()
-        {
-            _entitiesController.SpawnDefaultShips(80, 2f);
-        }
-        
-        private void Spawn30Asteroids()
-        {
-            _entitiesController.SpawnAsteroids(30);
         }
     }
 }

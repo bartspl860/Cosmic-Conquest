@@ -178,7 +178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 1
   _lifes: 2
-  _points: 200
+  _points: 100
   _isBrown: 1
   _smallBrownAsteroidPrefab: {fileID: 3594358977176647522, guid: 70703f84f466ac04d98a65e596081c3c, type: 3}
   _smallSilverAsteroidPrefab: {fileID: 3594358977176647522, guid: 204bfdee4c63eec48a07483e68510031, type: 3}

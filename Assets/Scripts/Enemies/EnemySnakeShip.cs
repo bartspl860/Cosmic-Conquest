@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Controllers;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -18,6 +19,10 @@ namespace Enemies
         {
             _player = FindFirstObjectByType<Player.Player>();
             _rb2d = GetComponent<Rigidbody2D>();
+            _utilitiesController = FindFirstObjectByType<UtilitiesController>();
+            _utilitiesSpawnFunctions.Add(this._utilitiesController.SpawnBronzeShield);
+            _utilitiesSpawnFunctions.Add(this._utilitiesController.SpawnBronzeAmmo);
+            _utilitiesSpawnFunctions.Add(this._utilitiesController.SpawnHealth);
             _verticalSpeed = _speed;
             _horizontalSpeed = _speed;
         }
