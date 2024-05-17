@@ -2031,6 +2031,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bronzeShieldPrefab: {fileID: 4603408943186355680, guid: ae1ba113ceda95e55a465fba58512f5a, type: 3}
   _bronzeAmmoPrefab: {fileID: 6423441001682289964, guid: f6ebadb84fbdd68ab8650b636776feb9, type: 3}
+  _healthPrefab: {fileID: 4603408943186355680, guid: 8187a73cdd214d4bfaa70816902b5a18, type: 3}
 --- !u!1 &2111359460
 GameObject:
   m_ObjectHideFlags: 0
