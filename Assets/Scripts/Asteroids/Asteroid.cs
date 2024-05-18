@@ -28,8 +28,6 @@ namespace Asteroids
         private bool _bigAsteroid;
         private float _rotation = 0f;
         private bool _destroyed = false;
-
-        private EnviromentController _enviromentController;
         private void Start()
         {
             var rb2d = GetComponent<Rigidbody2D>();
@@ -42,9 +40,6 @@ namespace Asteroids
                 _bigAsteroid = true;
             this.player = FindFirstObjectByType<Player.Player>();
             Assert.IsTrue(this.player != null);
-            _enviromentController = FindFirstObjectByType<EnviromentController>();
-            _enviromentController.EntityCounter++;
-            Debug.Log($"New Enemy + 1: {_enviromentController.EntityCounter}");
         }
 
         private void OnTriggerStay2D(Collider2D collision)
@@ -139,8 +134,6 @@ namespace Asteroids
                 AudioManager.Instance.PlaySound("hit");
             else
                 AudioManager.Instance.PlaySound("asteroid_destroy");
-        
-            FindFirstObjectByType<EnviromentController>().EntityDestroyed();
             
             yield return new WaitForSeconds(ps.main.duration);
             
@@ -153,7 +146,6 @@ namespace Asteroids
             _rotation += 0.001f;
             if (transform.position.y < -10)
             {
-                FindFirstObjectByType<EnviromentController>().EntityDestroyed();
                 Destroy(gameObject);
             }
         }

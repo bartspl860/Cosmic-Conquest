@@ -31,24 +31,33 @@ namespace Controllers
         private void Start()
         {
             _player = FindFirstObjectByType<Player.Player>();
+            StartCoroutine(CheckIfSceneIsEmpty());
         }
 
-        public void EntityDestroyed()
+        private IEnumerator CheckIfSceneIsEmpty()
         {
-            EntityCounter--;
-            if(EntityCounter >= 0)
-                Debug.Log($"Destroyed enemy - 1: {EntityCounter}");
-            else
-                Debug.LogError($"Destroyed enemy - 1: {EntityCounter}");
-            if (EntityCounter < 1)
-                _allowSpawning = true;
-        }
-
-        private void Update()
-        {
-            if (!_allowSpawning || _entitiesController.IsGenerating())
-                return;
+            while (true)
+            {
+                var entitiesCount = GameObject.FindGameObjectsWithTag("Destroyable").Length;
             
+                Debug.Log($"Destroyed enemy - 1: {entitiesCount}");
+            
+                if (entitiesCount < 1)
+                    _allowSpawning = true;
+            
+                if (!_allowSpawning || _entitiesController.IsGenerating())
+                    continue;
+            
+                Debug.LogWarning($"SPAWNING -> Counter was: {entitiesCount}");
+            
+                SpawnEntities();
+
+                yield return new WaitForSeconds(3);
+            }
+        }
+
+        private void SpawnEntities()
+        {
             if (_player.GetScore() > _bossSpawnPoints)
             {
                 _entitiesController.SpawnBoss(1);
@@ -71,7 +80,16 @@ namespace Controllers
                     _entitiesController.SpawnSnakeShips(Random.Range(5, 15), 0.4f);
                     break;
             }
+            
             _allowSpawning = false;
+        }
+
+        private void Update()
+        {
+            if (Input.GetButtonDown("Jump"))
+            {
+                Debug.LogWarning(GameObject.FindGameObjectsWithTag("Destroyable").Length);
+            }
         }
     }
 }

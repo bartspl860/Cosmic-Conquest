@@ -26,10 +26,6 @@ namespace Enemies
         private Rigidbody2D _bossRb2d;
         private Vector2 _flightDestination = Vector2.zero;
         
-        private GameObject _playerGameObject;
-        
-        private BulletController _bulletController;
-
         [SerializeField] 
         private Hit _bossHitEffect;
 
@@ -52,8 +48,6 @@ namespace Enemies
         private void Start()
         {
             _bossRb2d = GetComponent<Rigidbody2D>();
-            _bulletController = FindFirstObjectByType<BulletController>();
-            _playerGameObject = GameObject.FindWithTag("Player");
             _maxHealth = _health;
         }
 
@@ -102,7 +96,6 @@ namespace Enemies
         {
             _particleSystem.Play();
             yield return new WaitForSeconds(_particleSystem.main.duration);
-            FindFirstObjectByType<EnviromentController>().EntityDestroyed();
             Destroy(gameObject);
         }
 

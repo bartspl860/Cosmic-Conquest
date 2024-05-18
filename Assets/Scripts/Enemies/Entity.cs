@@ -12,6 +12,7 @@ namespace Enemies
     {
         protected Player.Player _player;
         protected UtilitiesController _utilitiesController;
+        protected EnviromentController _enviromentController;
         protected bool _destroyed = false;
 
         protected void OnTriggerEnter2D(Collider2D collision)
@@ -40,7 +41,6 @@ namespace Enemies
         protected List<Action<Vector2>> _utilitiesSpawnFunctions = new List<Action<Vector2>>();
         protected void SpawnRandomUtility()
         {
-            Debug.LogWarning("RAND");
             for (var i = 0; i < _utilitiesSpawnFunctions.Count; i++)
             {
                 if (Random.Range(0f, 1f) <= 0.15f)
@@ -64,7 +64,6 @@ namespace Enemies
             AudioManager.Instance.PlaySound("asteroid_hit");
             
             SpawnRandomUtility();
-            FindFirstObjectByType<EnviromentController>().EntityDestroyed();
             
             yield return new WaitForSeconds(ps.main.duration);
             
