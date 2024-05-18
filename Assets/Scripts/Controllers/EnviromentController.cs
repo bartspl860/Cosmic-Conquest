@@ -36,24 +36,22 @@ namespace Controllers
 
         private IEnumerator CheckIfSceneIsEmpty()
         {
-            while (true)
-            {
-                var entitiesCount = GameObject.FindGameObjectsWithTag("Destroyable").Length;
+            var entitiesCount = GameObject.FindGameObjectsWithTag("Destroyable").Length;
             
-                Debug.Log($"Destroyed enemy - 1: {entitiesCount}");
+            Debug.Log($"Destroyed enemy - 1: {entitiesCount}");
             
-                if (entitiesCount < 1)
-                    _allowSpawning = true;
-            
-                if (!_allowSpawning || _entitiesController.IsGenerating())
-                    continue;
-            
-                Debug.LogWarning($"SPAWNING -> Counter was: {entitiesCount}");
-            
-                SpawnEntities();
+            if (entitiesCount < 1)
+                _allowSpawning = true;
 
-                yield return new WaitForSeconds(3);
+            if (_allowSpawning && !_entitiesController.IsGenerating())
+            {
+                Debug.LogWarning($"SPAWNING -> Counter was: {entitiesCount}");
+                SpawnEntities();
             }
+            
+            yield return new WaitForSeconds(3);
+
+            StartCoroutine(CheckIfSceneIsEmpty());
         }
 
         private void SpawnEntities()
