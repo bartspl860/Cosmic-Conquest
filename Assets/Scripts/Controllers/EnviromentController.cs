@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.ComponentModel;
 using Controllers;
+using Http;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -21,6 +22,9 @@ namespace Controllers
         [SerializeField, Header("Dependencies")]
         private EntitiesController _entitiesController;
 
+        [SerializeField] 
+        private RequestSender _requestSender;
+
         private Player.Player _player;
 
         public int EntityCounter { get; set; }
@@ -31,21 +35,18 @@ namespace Controllers
         private void Start()
         {
             _player = FindFirstObjectByType<Player.Player>();
-            StartCoroutine(CheckIfSceneIsEmpty());
+            // StartCoroutine(CheckIfSceneIsEmpty());
         }
 
         private IEnumerator CheckIfSceneIsEmpty()
         {
             var entitiesCount = GameObject.FindGameObjectsWithTag("Destroyable").Length;
             
-            Debug.Log($"Destroyed enemy - 1: {entitiesCount}");
-            
             if (entitiesCount < 1)
                 _allowSpawning = true;
 
             if (_allowSpawning && !_entitiesController.IsGenerating())
             {
-                Debug.LogWarning($"SPAWNING -> Counter was: {entitiesCount}");
                 SpawnEntities();
             }
             
@@ -80,14 +81,6 @@ namespace Controllers
             }
             
             _allowSpawning = false;
-        }
-
-        private void Update()
-        {
-            if (Input.GetButtonDown("Jump"))
-            {
-                Debug.LogWarning(GameObject.FindGameObjectsWithTag("Destroyable").Length);
-            }
         }
     }
 }
