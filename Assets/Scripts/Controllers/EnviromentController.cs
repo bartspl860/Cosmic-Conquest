@@ -21,21 +21,14 @@ namespace Controllers
             
         [SerializeField, Header("Dependencies")]
         private EntitiesController _entitiesController;
-
-        [SerializeField] 
-        private RequestSender _requestSender;
-
         private Player.Player _player;
-
-        public int EntityCounter { get; set; }
         private bool _allowSpawning = true;
-
         private int _bossSpawnPoints = 5000;
 
         private void Start()
         {
             _player = FindFirstObjectByType<Player.Player>();
-            // StartCoroutine(CheckIfSceneIsEmpty());
+            StartCoroutine(CheckIfSceneIsEmpty());
         }
 
         private IEnumerator CheckIfSceneIsEmpty()

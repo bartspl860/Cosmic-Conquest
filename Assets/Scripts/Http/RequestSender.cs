@@ -16,7 +16,6 @@ namespace Http
             using (UnityWebRequest webRequest = UnityWebRequest.Get(_apiUrl + "fetch"))
             {
                 yield return webRequest.SendWebRequest();
-
                 if (webRequest.result != UnityWebRequest.Result.Success)
                 {
                     Debug.LogError($"Failed to fetch ranking scores: {webRequest.error}");

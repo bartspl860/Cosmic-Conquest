@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
+using System.Linq;
 using Controllers;
 using Effects;
+using Http;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -32,8 +34,6 @@ namespace Player
         [SerializeField]
         private float _shieldTriggerTime;
         [SerializeField]
-        private Sprite _playerHealthSprite;
-        [SerializeField]
         private int _score;
         [SerializeField]
         private bool _invincible = false;
@@ -41,8 +41,6 @@ namespace Player
         private BulletController _bulletController;
         [SerializeField]
         private UIController _uiController;
-        [SerializeField]
-        private EnviromentController _enviromentController;
         [SerializeField]
         private Shaking _screenShaking;
         [SerializeField] 
@@ -53,6 +51,8 @@ namespace Player
         private SpriteRenderer _shieldRenderer;
         [SerializeField]
         private Animator _shieldAnimator;
+        [SerializeField] 
+        private GameOverController _gameOverController;
 
         private Rigidbody2D _playerRigidbody;
 
@@ -172,6 +172,7 @@ namespace Player
             if ( _playerHealth < 1 ) 
             {
                 _gameOverTMPfading.startFade();
+                _gameOverController.CheckIfScoreTop10();
                 Destroy(_player);
                 Destroy(gameObject);
             }
@@ -238,7 +239,7 @@ namespace Player
                 angle += shootingPiePart;
             }
         }
-
+        
         IEnumerator IEShooting()
         {
             while (true)

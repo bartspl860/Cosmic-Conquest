@@ -39,7 +39,6 @@ namespace Asteroids
             if(_lifes > 1)
                 _bigAsteroid = true;
             this.player = FindFirstObjectByType<Player.Player>();
-            Assert.IsTrue(this.player != null);
         }
 
         private void OnTriggerStay2D(Collider2D collision)

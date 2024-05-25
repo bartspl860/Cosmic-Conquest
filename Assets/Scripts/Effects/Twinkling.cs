@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 namespace Effects
@@ -8,6 +9,8 @@ namespace Effects
     {
         [SerializeField] 
         private SpriteRenderer[] _spriteRenderers;
+        [SerializeField]
+        private TMP_Text[] _tmpTexts;
         private Coroutine _twinklingCoroutine;
 
         public void StartTwinkling(float frequency)
@@ -22,6 +25,16 @@ namespace Effects
             {
                 Color colorBefore = sr.color;
                 sr.color = new Color(
+                    r: colorBefore.r,
+                    g: colorBefore.g,
+                    b: colorBefore.b,
+                    a: 1
+                ); 
+            }
+            foreach (var tmpt in _tmpTexts)
+            {
+                Color colorBefore = tmpt.color;
+                tmpt.color = new Color(
                     r: colorBefore.r,
                     g: colorBefore.g,
                     b: colorBefore.b,
@@ -47,6 +60,16 @@ namespace Effects
                         b: colorBefore.b,
                         a: (float)twinklingValue
                     ); 
+                }
+                foreach (var tmpt in _tmpTexts)
+                {
+                    Color colorBefore = tmpt.color;
+                    tmpt.color = new Color(
+                        r: colorBefore.r,
+                        g: colorBefore.g,
+                        b: colorBefore.b,
+                        a: (float)twinklingValue
+                    );
                 }
                 yield return null;
             }
