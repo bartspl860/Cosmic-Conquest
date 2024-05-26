@@ -88,7 +88,7 @@ namespace Player
 
         public void AddHealth(int count)
         {
-            this._playerHealth = Math.Clamp(_playerHealth + count, 1, 10);
+            this._playerHealth = Math.Clamp(_playerHealth + count, 0, _playerMaxHealth);
             _uiController.DisplayHealthPoints(_playerHealth, _playerMaxHealth);
         }
         

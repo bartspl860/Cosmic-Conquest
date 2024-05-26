@@ -48,8 +48,15 @@ namespace Controllers
         {
             yield return _requestSender.GetRankingScores(scores =>
             {
-                if(scores == null)
+                if (scores == null)
+                {
+                    foreach (var controlButton in _controlButtons)
+                    {
+                        controlButton.SetActive(true);
+                    }
                     return;
+                }
+                    
                 var smallest = scores.Min(rs => rs.score);
                 if (_player.GetScore() > smallest || scores.Length < 10)
                 {

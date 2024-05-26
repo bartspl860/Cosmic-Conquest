@@ -43,7 +43,7 @@ namespace Enemies
         {
             for (var i = 0; i < _utilitiesSpawnFunctions.Count; i++)
             {
-                if (Random.Range(0f, 1f) <= 0.15f)
+                if (Random.Range(0f, 1f) <= 0.05f)
                 {
                     _utilitiesSpawnFunctions[i](transform.position);
                     break;

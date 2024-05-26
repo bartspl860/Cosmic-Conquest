@@ -2207,7 +2207,7 @@ MonoBehaviour:
   _playerRotationAngle: 10
   _shootingSpeed: 0.6
   _missilesCount: 1
-  _playerHealth: 1
+  _playerHealth: 5
   _playerMaxHealth: 5
   _shield: 0
   _shieldDuration: 10
