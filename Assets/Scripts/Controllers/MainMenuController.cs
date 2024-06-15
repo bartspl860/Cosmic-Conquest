@@ -40,7 +40,17 @@ public class MainMenuController : MonoBehaviour
         {
             _rankingList.text = "";
             _rankingList.color = Color.white;
-            if (rankingScores != null)
+            if (rankingScores == null)
+            {
+                _rankingList.color = Color.red;
+                _rankingList.text = "Failed to fetch ranking scores. \nCheck internet connection.";
+            }
+            else if(rankingScores.Length == 0)
+            {
+                _rankingList.color = Color.yellow;
+                _rankingList.text = "Ranking is empty.";
+            }
+            else
             {
                 List<RankingScore> list = rankingScores.ToList();
                 list.Sort();
@@ -50,11 +60,6 @@ public class MainMenuController : MonoBehaviour
                     _rankingList.text +=
                         $"{i + 1}. {rankingScores[i].nickname} - {rankingScores[i].score} - {rankingScores[i].date}\n";
                 }
-            }
-            else
-            {
-                _rankingList.color = Color.red;
-                _rankingList.text = "Failed to fetch ranking scores. \nCheck internet connection.";
             }
         });
     }

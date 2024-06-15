@@ -56,8 +56,11 @@ namespace Controllers
                     }
                     return;
                 }
-                    
-                var smallest = scores.Min(rs => rs.score);
+
+                var smallest = 0;
+                if(scores.Length > 0)
+                    smallest = scores.Min(rs => rs.score);
+                
                 if (_player.GetScore() > smallest || scores.Length < 10)
                 {
                     //show score add screen

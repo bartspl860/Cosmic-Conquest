@@ -35,8 +35,7 @@ namespace Http
             var payload = new UserScoreTokenPayload()
             {
                 nickname = nickname,
-                score = score,
-                date = DateTime.Today.ToShortDateString(),
+                score = score
             };
                 
             var token = Http.JWTGenerator.Builder()
