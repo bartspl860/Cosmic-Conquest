@@ -38,15 +38,13 @@ public class MainMenuController : MonoBehaviour
     {
         yield return _requestSender.GetRankingScores(rankingScores =>
         {
-            List<RankingScore> list = rankingScores.ToList();
-            list.Sort();
-            rankingScores = list.ToArray();
-            
             _rankingList.text = "";
             _rankingList.color = Color.white;
             if (rankingScores != null)
             {
-            
+                List<RankingScore> list = rankingScores.ToList();
+                list.Sort();
+                rankingScores = list.ToArray();
                 for(var i = 0; i < rankingScores.Length; i++)
                 {
                     _rankingList.text +=
